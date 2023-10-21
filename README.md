@@ -1,1 +1,1 @@
-# IntroAI_Lab1_PathSearching
+## IntroAI: Path Searching
