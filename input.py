@@ -34,5 +34,5 @@ for i in range(len(data)):
 if start == None or goal == None:
     print("Không tìm thấy Start và Goal")
 else:
-    for i in data:
-        print(i)
+    for line in data:
+        print(line)
