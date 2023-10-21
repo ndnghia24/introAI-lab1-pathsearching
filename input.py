@@ -21,5 +21,18 @@ with open(maze_path, "r") as file:
 
     data = [line.rstrip() for line in file.readlines()]
 
-for i in data:
-    print(i)
+# kiểm tra vị trí bắt đầu và đích
+start = None
+goal = None
+for i in range(len(data)):
+    for j in range(len(data[i])):
+        if data[i][j] == 'S':
+            start = (i, j)
+        elif data[i][j] == 'G':
+            goal = (i, j)
+
+if start == None or goal == None:
+    print("Không tìm thấy Start và Goal")
+else:
+    for i in data:
+        print(i)
