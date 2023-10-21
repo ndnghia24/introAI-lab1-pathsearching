@@ -1,4 +1,4 @@
-  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+G xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   x   x   x x       x                   x
 x x x xxx x x xxxxxxxxx xxx xxxxxxxxx x x
 x   x x x x x   x x x     x x   x x   x x
@@ -13,5 +13,5 @@ x x x   x x   x     x   x x   x   x   x x
 x x xxx x x xxxxx xxx xxx xxx x xxxxx x x
 x x x   x   x       x     x   x     x x x
 x xxxxxxx xxxxxxx xxxxx x xxxxxxx xxx x x
-x                       x           x   x
+x                S      x           x   x
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
