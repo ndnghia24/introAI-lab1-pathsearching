@@ -4,7 +4,7 @@ import algorithms.dfs as dfs_algorithm
 import algorithms.a_star as a_star_algorithm
 
 # lưu đường dẫn file maze
-maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input2.txt"
+maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input1.txt"
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
@@ -60,6 +60,22 @@ if __name__ == "__main__":
     maze, mapping_bonus = load_maze(maze_path)
     start, goal = find_start_goal(maze)
 
-    # tìm đường đi
-    shortest_path_cost, path = a_star_algorithm.a_star(maze, start, goal, 3)
-    print_maze_result(maze, path, shortest_path_cost)
+    # UCS
+    cost, path = ucs_algorithm.ucs(maze, start, goal)
+    print_maze_result(maze, path, cost)
+
+    # DFS   
+    cost, path = dfs_algorithm.dfs(maze, start, goal)
+    print_maze_result(maze, path, cost)
+
+    # A* với heuristic là khoảng cách Chebyshev
+    cost, path = a_star_algorithm.a_star(maze, start, goal, 1)
+    print_maze_result(maze, path, cost)
+
+    # A* với heuristic là khoảng cách Euclidean
+    cost, path = a_star_algorithm.a_star(maze, start, goal, 2)
+    print_maze_result(maze, path, cost)
+
+    # A* với heuristic là khoảng cách Manhattan
+    cost, path = a_star_algorithm.a_star(maze, start, goal, 3)
+    print_maze_result(maze, path, cost)
