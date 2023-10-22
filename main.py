@@ -37,7 +37,7 @@ def load_maze(maze_path):
         
     except FileNotFoundError:
         print("Không tìm thấy file maze")
-        exit()    
+        exit()
 
 if __name__ == "__main__":
     # load maze và tìm điểm đầu cuối
@@ -48,9 +48,11 @@ if __name__ == "__main__":
         print("S and G not found")
     else:
         shortest_path_cost, path = ucs_algorithm.ucs(maze, mapping_bonus, start, goal)
+
         if path is not None:
             print(f"Min Path Weight SG: {shortest_path_cost}")
             print("Path:")
+            path.pop(0)
             for node in path:
                 x, y = node
                 maze[x] = maze[x][:y] + '█' + maze[x][y + 1:]
