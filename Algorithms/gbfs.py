@@ -1,6 +1,6 @@
 from queue import PriorityQueue
 
-def greedy_best_first_search(maze, start, goal, heuristic):
+def gbfs(maze, start, goal, heuristic):
     # Kiểm vị trí S và G trong ma trận
     if start == None or goal == None:
         print("S and G not found")

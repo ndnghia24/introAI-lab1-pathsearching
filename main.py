@@ -2,7 +2,11 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 import os
-from Algorithms.ucs import ucs, dfs, bfs, gbfs, a_star
+from Algorithms.ucs import ucs
+from Algorithms.dfs import dfs
+from Algorithms.bfs import bfs
+from Algorithms.a_star import a_star
+from Algorithms.gbfs import gbfs
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
@@ -104,4 +108,4 @@ if __name__ == "__main__":
     start, goal = find_start_goal(maze)
 
     # A* với heuristic là khoảng cách Chebyshev
-    find_path(a_star, maze, start, goal, 3)
+    find_path(gbfs, maze, start, goal, 3)
