@@ -17,7 +17,7 @@ def a_star(maze, start, goal, heuristic):
     def heuristic_manhattan(node, goal):
         return abs(node[0] - goal[0]) + abs(node[1] - goal[1])
     
-    # 2: Hàm heuristic xét đường chim bay
+    # 2: Hàm heuristic khoảng cách Euclidean
     def heuristic_euclidean(node, goal):
         return pow((node[0] - goal[0]), 2) + pow((node[1] - goal[1]), 2)
     
@@ -48,10 +48,15 @@ def a_star(maze, start, goal, heuristic):
                 new_cost = current_cost + 1
                 
                 if heuristic == 1:
-                    priority_queue.put((new_cost + heuristic_manhattan(next_node, goal), next_node, path + [current_node]))
-                if heuristic == 2:
-                    priority_queue.put((new_cost + heuristic_euclidean(next_node, goal), next_node, path + [current_node]))
-                if heuristic == 3:
-                    priority_queue.put((new_cost + heuristic_chebyshev(next_node, goal), next_node, path + [current_node]))
+                    priority = new_cost + heuristic_manhattan(next_node, goal)
+                elif heuristic == 2:
+                    priority = new_cost + heuristic_euclidean(next_node, goal)
+                elif heuristic == 3:
+                    priority = new_cost + heuristic_chebyshev(next_node, goal)
+
+                if heuristic_manhattan is not None:
+                    priority += heuristic_manhattan(next_node, goal)
+                    
+                priority_queue.put((priority, next_node, path + [current_node]))
 
     return None, None
