@@ -11,7 +11,7 @@ def a_star(maze, start, goal, heuristic):
         return (0 <= y < len(maze)) and (0 <= x < len(maze[0])) and maze[y][x] != 'x'
     
     # Hướng di chuyển trong maze
-    directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+    directions = [(0, -1), (-1, 0), (1, 0), (0, 1)]
 
     # 1: Hàm heuristic khoảng cách Manhattan
     def heuristic_manhattan(node, goal):
@@ -46,12 +46,12 @@ def a_star(maze, start, goal, heuristic):
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
                 new_cost = current_cost + 1
-                match heuristic:
-                    case 1:
-                        priority_queue.put((new_cost + heuristic_manhattan(next_node, goal), next_node, path + [current_node]))
-                    case 2:
-                        priority_queue.put((new_cost + heuristic_euclidean(next_node, goal), next_node, path + [current_node]))
-                    case 3:
-                        priority_queue.put((new_cost + heuristic_chebyshev(next_node, goal), next_node, path + [current_node]))
+                
+                if heuristic == 1:
+                    priority_queue.put((new_cost + heuristic_manhattan(next_node, goal), next_node, path + [current_node]))
+                if heuristic == 2:
+                    priority_queue.put((new_cost + heuristic_euclidean(next_node, goal), next_node, path + [current_node]))
+                if heuristic == 3:
+                    priority_queue.put((new_cost + heuristic_chebyshev(next_node, goal), next_node, path + [current_node]))
 
     return None, None

@@ -7,7 +7,7 @@ def ucs(maze, start, goal):
         return (0 <= y < len(maze)) and (0 <= x < len(maze[0])) and maze[y][x] != 'x'
     
     # Hướng di chuyển trong maze
-    directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+    directions = [(0, -1), (-1, 0), (1, 0), (0, 1)]
 
     visited = set()
     priority_queue = PriorityQueue()

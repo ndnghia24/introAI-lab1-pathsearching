@@ -42,6 +42,7 @@ def load_maze(maze_path):
         exit()
 
 def print_maze_result(maze, path, shortest_path_cost):
+    maze_clone = maze.copy()
     if path is not None:
             print(f"Min Path Weight SG: {shortest_path_cost}")
             print("Path:")
@@ -49,14 +50,14 @@ def print_maze_result(maze, path, shortest_path_cost):
             path.pop(-1)
             for node in path:
                 x, y = node
-                maze[y] = maze[y][:x] + '█' + maze[y][x + 1:]
-            for line in maze:
+                maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
+            for line in maze_clone:
                 print(line)
     else:
         print("No path from S to G.")
 
 if __name__ == "__main__":
-    # load maze và tìm điểm đầu cuối
+    # load maze, tìm điểm đầu cuối và danh sách điểm thưởng
     maze, mapping_bonus = load_maze(maze_path)
     start, goal = find_start_goal(maze)
 
@@ -78,5 +79,4 @@ if __name__ == "__main__":
 
     # A* với heuristic là khoảng cách Manhattan
     cost, path = a_star_algorithm.a_star(maze, start, goal, 3)
-    print(path)
     print_maze_result(maze, path, cost)
