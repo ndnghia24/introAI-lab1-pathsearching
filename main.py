@@ -1,7 +1,8 @@
-import algorithms.ucs as ucs
+import os
+import algorithms.ucs as ucs_algorithm
 
 # lưu đường dẫn file maze
-maze_path = "D:/1LEARNING/CNTT/HK5/AI/repo/Lab1/input/level_1/input1.txt"
+maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input1.txt"
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     if start == None or goal == None:
         print("S and G not found")
     else:
-        shortest_path_cost, path = ucs(maze, mapping_bonus, start, goal)
+        shortest_path_cost, path = ucs_algorithm.ucs(maze, mapping_bonus, start, goal)
         if path is not None:
             print(f"Min Path Weight SG: {shortest_path_cost}")
             print("Path:")
