@@ -13,7 +13,7 @@ def dfs(maze, start, goal):
         current_node, path = stack.pop()
         
         if current_node == goal:
-            return len(path) + 1, path + [current_node]
+            return len(path), path + [current_node]
 
         if current_node in visited:
             continue

@@ -1,9 +1,10 @@
 import os
 import algorithms.ucs as ucs_algorithm
 import algorithms.dfs as dfs_algorithm
+import algorithms.a_star as a_star_algorithm
 
 # lưu đường dẫn file maze
-maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input1.txt"
+maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input2.txt"
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
@@ -40,43 +41,25 @@ def load_maze(maze_path):
         print("Không tìm thấy file maze")
         exit()
 
+def print_maze_result(maze, path, shortest_path_cost):
+    if path is not None:
+            print(f"Min Path Weight SG: {shortest_path_cost}")
+            print("Path:")
+            path.pop(0)
+            path.pop(-1)
+            for node in path:
+                x, y = node
+                maze[x] = maze[x][:y] + '█' + maze[x][y + 1:]
+            for line in maze:
+                print(line)
+    else:
+        print("No path from S to G.")
+
 if __name__ == "__main__":
     # load maze và tìm điểm đầu cuối
     maze, mapping_bonus = load_maze(maze_path)
     start, goal = find_start_goal(maze)
 
-    if start == None or goal == None:
-        print("S and G not found")
-    else:
-        # thuật tìm đường không thưởng
-        shortest_path_cost, path = ucs_algorithm.ucs(maze, start, goal)
-
-        if path is not None:
-            print(f"Min Path Weight SG: {shortest_path_cost}")
-            print("Path:")
-            path.pop(0)
-            path.pop(-1)
-            for node in path:
-                x, y = node
-                maze[x] = maze[x][:y] + '█' + maze[x][y + 1:]
-            for line in maze:
-                print(line)
-        else:
-            print("No path from S to G.")
-
-        # thuật tìm đường không thưởng
-        shortest_path_cost, path = dfs_algorithm.dfs(maze, start, goal)
-
-        if path is not None:
-            print(f"Min Path Weight SG: {shortest_path_cost}")
-            print("Path:")
-            path.pop(0)
-            path.pop(-1)
-            for node in path:
-                x, y = node
-                maze[x] = maze[x][:y] + '█' + maze[x][y + 1:]
-            for line in maze:
-                print(line)
-        else:
-            print("No path from S to G.")
-
+    # tìm đường đi
+    shortest_path_cost, path = a_star_algorithm.a_star(maze, start, goal, 3)
+    print_maze_result(maze, path, shortest_path_cost)
