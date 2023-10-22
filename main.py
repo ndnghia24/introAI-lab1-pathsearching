@@ -18,6 +18,7 @@ def find_start_goal(maze):
                 goal =  (j, i)
     return start, goal
 
+
 def load_maze(maze_path):
     # lưu điểm thưởng 
     mapping_bonus = {}
@@ -66,6 +67,7 @@ def maze_path_visualize(maze, path):
     fig, ax = plt.subplots(figsize=(cols, rows))
     colored_maze = [[6 if cell != "x" else 0 for cell in row] for row in maze]
     ax.imshow(colored_maze, cmap=cmap, origin="upper")
+    ax.axis("off")
 
     # Vẽ đường đi
     if path:
@@ -82,11 +84,9 @@ def maze_path_visualize(maze, path):
             elif maze[y][x] == "E":
                 ax.plot(x, y, marker="o", markersize=10, color="purple")
 
-    # ax.set_title("DFS")
-
-    # Loại bỏ trục và hiển thị
-    ax.axis("off")
+    ax.set_title("Cost: {0}".format(len(path) + 1))
     plt.show()
+
 
 def find_path(algo, maze, start, goal, heuristic=None):
     cost, path = algo(maze, start, goal, heuristic)
@@ -95,6 +95,7 @@ def find_path(algo, maze, start, goal, heuristic=None):
     maze_path_visualize(maze, path)
 
 
+#################### MAIN ####################
 if __name__ == "__main__":
 
     # input maze
