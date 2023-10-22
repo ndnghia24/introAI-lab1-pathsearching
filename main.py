@@ -36,8 +36,7 @@ def load_maze(maze_path):
         
     except FileNotFoundError:
         print("Không tìm thấy file maze")
-        exit()
-    
+        exit()    
 
 if __name__ == "__main__":
     # load maze và tìm điểm đầu cuối
