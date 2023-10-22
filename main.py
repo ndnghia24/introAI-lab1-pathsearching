@@ -13,9 +13,9 @@ def find_start_goal(maze):
     for i in range(len(maze)):
         for j in range(len(maze[i])):
             if maze[i][j] == 'S':
-                start = (i, j)
+                start = (j, i)
             elif maze[i][j] == 'G':
-                goal = (i, j)
+                goal =  (j, i)
     return start, goal
 
 def load_maze(maze_path):
@@ -49,7 +49,7 @@ def print_maze_result(maze, path, shortest_path_cost):
             path.pop(-1)
             for node in path:
                 x, y = node
-                maze[x] = maze[x][:y] + '█' + maze[x][y + 1:]
+                maze[y] = maze[y][:x] + '█' + maze[y][x + 1:]
             for line in maze:
                 print(line)
     else:
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     cost, path = ucs_algorithm.ucs(maze, start, goal)
     print_maze_result(maze, path, cost)
 
-    # DFS   
+    # DFS    
     cost, path = dfs_algorithm.dfs(maze, start, goal)
     print_maze_result(maze, path, cost)
 
@@ -78,4 +78,5 @@ if __name__ == "__main__":
 
     # A* với heuristic là khoảng cách Manhattan
     cost, path = a_star_algorithm.a_star(maze, start, goal, 3)
+    print(path)
     print_maze_result(maze, path, cost)

@@ -4,7 +4,7 @@ from queue import PriorityQueue
 def ucs(maze, start, goal):
     # Hàm để kiểm tra đường đi hợp lệ
     def is_valid(x, y):
-        return (0 <= x < len(maze)) and (0 <= y < len(maze[0])) and maze[x][y] != 'x'
+        return (0 <= y < len(maze)) and (0 <= x < len(maze[0])) and maze[y][x] != 'x'
     
     # Hướng di chuyển trong maze
     directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]

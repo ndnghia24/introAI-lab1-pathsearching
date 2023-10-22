@@ -8,7 +8,7 @@ def a_star(maze, start, goal, heuristic):
     
     # Hàm để kiểm tra đường đi hợp lệ
     def is_valid(x, y):
-        return (0 <= x < len(maze)) and (0 <= y < len(maze[0])) and maze[x][y] != 'x'
+        return (0 <= y < len(maze)) and (0 <= x < len(maze[0])) and maze[y][x] != 'x'
     
     # Hướng di chuyển trong maze
     directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
@@ -46,7 +46,7 @@ def a_star(maze, start, goal, heuristic):
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
                 new_cost = current_cost + 1
-                match  heuristic:
+                match heuristic:
                     case 1:
                         priority_queue.put((new_cost + heuristic_manhattan(next_node, goal), next_node, path + [current_node]))
                     case 2:
