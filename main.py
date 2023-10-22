@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 import os
-from Algorithms.ucs import ucs
-from Algorithms.dfs import dfs
-from Algorithms.a_star import a_star
+from Algorithms.ucs import ucs, dfs, bfs, gbfs, a_star
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
