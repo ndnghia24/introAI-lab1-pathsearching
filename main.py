@@ -1,5 +1,6 @@
 import os
 import algorithms.ucs as ucs_algorithm
+import algorithms.dfs as dfs_algorithm
 
 # lưu đường dẫn file maze
 maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input1.txt"
@@ -47,12 +48,30 @@ if __name__ == "__main__":
     if start == None or goal == None:
         print("S and G not found")
     else:
-        shortest_path_cost, path = ucs_algorithm.ucs(maze, mapping_bonus, start, goal)
+        # thuật tìm đường không thưởng
+        shortest_path_cost, path = ucs_algorithm.ucs(maze, start, goal)
 
         if path is not None:
             print(f"Min Path Weight SG: {shortest_path_cost}")
             print("Path:")
             path.pop(0)
+            path.pop(-1)
+            for node in path:
+                x, y = node
+                maze[x] = maze[x][:y] + '█' + maze[x][y + 1:]
+            for line in maze:
+                print(line)
+        else:
+            print("No path from S to G.")
+
+        # thuật tìm đường không thưởng
+        shortest_path_cost, path = dfs_algorithm.dfs(maze, start, goal)
+
+        if path is not None:
+            print(f"Min Path Weight SG: {shortest_path_cost}")
+            print("Path:")
+            path.pop(0)
+            path.pop(-1)
             for node in path:
                 x, y = node
                 maze[x] = maze[x][:y] + '█' + maze[x][y + 1:]

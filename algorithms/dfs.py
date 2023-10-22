@@ -1,7 +1,4 @@
-from queue import PriorityQueue
-
-# Hàm thực hiện thuật toán UCS
-def ucs(maze, start, goal):
+def dfs(maze, start, goal):
     # Hàm để kiểm tra đường đi hợp lệ
     def is_valid(x, y):
         return (0 <= x < len(maze)) and (0 <= y < len(maze[0])) and maze[x][y] != 'x'
@@ -10,14 +7,13 @@ def ucs(maze, start, goal):
     directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 
     visited = set()
-    priority_queue = PriorityQueue()
-    priority_queue.put((0, start, []))
+    stack = [(start, [])]
 
-    while not priority_queue.empty():
-        current_cost, current_node, path = priority_queue.get()
-
+    while stack:
+        current_node, path = stack.pop()
+        
         if current_node == goal:
-            return current_cost, path + [current_node]
+            return len(path) + 1, path + [current_node]
 
         if current_node in visited:
             continue
@@ -29,7 +25,6 @@ def ucs(maze, start, goal):
             new_x, new_y = x + dx, y + dy
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
-                new_cost = current_cost + 1
-                priority_queue.put((new_cost, next_node, path + [current_node]))
+                stack.append((next_node, path + [current_node]))
 
     return None, None
