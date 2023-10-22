@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 import os
-from algorithms.ucs import ucs
-from algorithms.dfs import dfs
-from algorithms.a_star import a_star
+from Algorithms.ucs import ucs
+from Algorithms.dfs import dfs
+from Algorithms.a_star import a_star
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
@@ -82,7 +82,7 @@ def maze_path_visualize(maze, path):
             if maze[y][x] == "S":
                 ax.plot(x, y, marker="o", markersize=10, color="yellow")
             elif maze[y][x] == "E":
-                ax.plot(x, y, marker="o", markersize=10, color="purple")
+                ax.plot(x, y, marker="o", markersize=10, color="green")
 
     ax.set_title("Cost: {0}".format(len(path) + 1))
     plt.show()
@@ -105,8 +105,5 @@ if __name__ == "__main__":
     maze, mapping_bonus = load_maze(maze_path)
     start, goal = find_start_goal(maze)
 
-    # UCS
-    find_path(ucs, maze, start, goal)
-
     # A* với heuristic là khoảng cách Chebyshev
-    find_path(a_star, maze, start, goal, 2)
+    find_path(a_star, maze, start, goal, 3)
