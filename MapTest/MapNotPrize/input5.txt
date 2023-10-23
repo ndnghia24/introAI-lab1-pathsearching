@@ -1,0 +1,18 @@
+0
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+E     x     x   x     x x       x x     x
+x xxx x x xxxxx x x x x xxx xxxxx xxx xxx
+x   x x x x x x   x x     x     x       x
+x x x xxx x x x xxxxx xxx x xxx xxx x x x
+x x x x         x x   x x   x x x x x x x
+xxxxx x x x x x x x xxx x x x xxx xxx x x
+x x x   x x x x x   x x   x   x x     x x
+x x x xxxxx xxx xxx x xxxxxxxxx x xxxxx x
+x         x x   x x x   x x x x x   x   x
+x xxx xxxxx xxx x xxxxx x x x x x xxxxx x
+x x     x   x x   x         x   x x x   x
+xxxxx xxxxx x xxx xxx xxx xxxxx xxx x xxx
+x x     x   x     x   x x           x   x
+x x xxx xxxxxxxxxxxxx x xxx xxx xxx x xxx
+x     x x  S              x x     x     x
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
