@@ -54,9 +54,9 @@ def a_star(maze, start, goal, heuristic):
                 elif heuristic == 3:
                     priority = new_cost + heuristic_chebyshev(next_node, goal)
 
-                if heuristic_manhattan is not None:
-                    priority += heuristic_manhattan(next_node, goal)
-                    
+                # double heuristic
+                priority += heuristic_manhattan(next_node, goal) 
+
                 priority_queue.put((priority, next_node, path + [current_node]))
 
     return None, None
