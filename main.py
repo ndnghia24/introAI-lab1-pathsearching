@@ -6,9 +6,13 @@ sys.path.append("./Algorithms")
 from dfs import dfs
 from bfs import bfs
 from ucs import ucs
+from gbfs import gbfs
+from astar import astar
+from gbfs import euclidean_distance
+from gbfs import manhattan_distance
 
-
-def find_path(algorithm, filename):
+# Tìm đường đi các thuật toán không có thông tin
+def find_path_notInfor(algorithm, filename):
     with open(filename, "r") as f:
         maze = f.readlines()[1:]  # Bỏ qua dòng đầu tiên
         maze = [line.strip() for line in maze]
@@ -29,6 +33,27 @@ def find_path(algorithm, filename):
     path = algorithm(maze, start_position, end_position)
     return path
 
+# Tìm đường đi các thuật toán có thông tin
+def find_path_withInfor(algorithm, heuristic, filename):
+    with open(filename, "r") as f:
+        maze = f.readlines()[1:]  # Bỏ qua dòng đầu tiên
+        maze = [line.strip() for line in maze]
+
+    start_position = None
+    end_position = None
+
+    for y in range(len(maze)):
+        for x in range(len(maze[y])):
+            if maze[y][x] == "S":
+                start_position = (x, y)
+            elif maze[y][x] == "E":
+                end_position = (x, y)
+
+    if start_position is None or end_position is None:
+        return None
+
+    path = algorithm(maze, start_position, end_position, heuristic)
+    return path
 
 def draw_path_on_maze(maze, path):
     rows = len(maze)
@@ -49,7 +74,7 @@ def draw_path_on_maze(maze, path):
     ax.imshow(colored_maze, cmap=cmap, origin="upper")
 
     # Vẽ đường đi nếu có
-    if path:
+    if path is not None and not isinstance(path, bool):
         path_x, path_y = zip(*path)
         ax.plot(path_x, path_y, color="red", linewidth=2)
 
@@ -78,12 +103,17 @@ def draw_path_on_maze(maze, path):
     plt.show()
 
 
-# Sử dụng hàm find_path:
+# Sử dụng hàm find_path_notInfor:
 idInput = 1
 filename = f"./MapTest/MapNotPrize/input{idInput}.txt"  # Đổi tên file tương ứng với file bản đồ của bạn
 
 
-path = find_path(dfs, filename)
+pathNoInfor = find_path_notInfor(dfs, filename)
+path_euclidean_distance_gbfs = find_path_withInfor(gbfs, euclidean_distance, filename)
+path_manhattan_distance_gbfs = find_path_withInfor(gbfs, manhattan_distance, filename)
+path_euclidean_distance_astar = find_path_withInfor(astar, euclidean_distance, filename)
+# path_manhattan_distance_astar = find_path_withInfor(astar, manhattan_distance, filename)
+
 
 with open(f"./MapTest/MapNotPrize/input{idInput}.txt", "r") as file:
     # Đọc toàn bộ nội dung file và loại bỏ dòng đầu tiên
@@ -100,4 +130,8 @@ maze_colors = []
 for row in maze:
     maze_colors.append([0 if cell == "x" else 1 for cell in row])
 
-draw_path_on_maze(maze, path)
+draw_path_on_maze(maze, pathNoInfor)
+# draw_path_on_maze(maze, path_euclidean_distance_gbfs)
+# draw_path_on_maze(maze, path_manhattan_distance_gbfs)
+# draw_path_on_maze(maze, path_euclidean_distance_astar)
+# draw_path_on_maze(maze, path_manhattan_distance_astar)
