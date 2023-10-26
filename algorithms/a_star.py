@@ -1,6 +1,8 @@
 from queue import PriorityQueue
 
 def a_star(maze, start, goal, heuristic):
+    print("A* Function")
+
     # Kiểm vị trí S và G trong ma trận
     if start == None or goal == None:
         print("S and G not found")

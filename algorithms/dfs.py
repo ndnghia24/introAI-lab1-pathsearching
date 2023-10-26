@@ -1,4 +1,6 @@
 def dfs(maze, start, goal, heuristic=None):
+    print("DFS Function")
+
     # Hàm để kiểm tra đường đi hợp lệ
     def is_valid(x, y):
         return (0 <= y < len(maze)) and (0 <= x < len(maze[0])) and maze[y][x] != 'x'

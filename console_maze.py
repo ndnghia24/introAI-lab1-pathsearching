@@ -59,6 +59,10 @@ def print_maze_result(maze, path, shortest_path_cost):
     else:
         print("No path from S to G.")
 
+def print_empty_maze(maze):
+    maze_clone = maze.copy()
+    for line in maze_clone:
+        print(line)
 
 def maze_path_visualize(maze, path, cost):
     rows = len(maze)
@@ -94,18 +98,26 @@ def find_path(algo, maze, start, goal, heuristic=None):
     cost, path = algo(maze, start, goal, heuristic)
 
     print_maze_result(maze, path, cost)
-    maze_path_visualize(maze, path, cost)
+    # maze_path_visualize(maze, path, cost)
 
 
 #################### MAIN ####################
 if __name__ == "__main__":
 
     # input maze
-    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input1.txt"
+    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input5.txt"
 
     # load maze, tìm điểm đầu cuối và danh sách điểm thưởng
     maze, mapping_bonus = load_maze(maze_path)
+
     start, goal = find_start_goal(maze)
 
     # A* với heuristic là khoảng cách Manhattan
+    find_path(dfs, maze, start, goal)
+    find_path(bfs, maze, start, goal)
+    find_path(ucs, maze, start, goal)
+    find_path(gbfs, maze, start, goal, 1)
+    find_path(gbfs, maze, start, goal, 2)
     find_path(a_star, maze, start, goal, 1)
+    find_path(a_star, maze, start, goal, 2)
+    

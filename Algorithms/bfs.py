@@ -1,6 +1,8 @@
 from collections import deque
 
 def bfs(maze, start_position, end_position, heuristic=None):
+    print("BFS Function")
+
     rows = len(maze)
     cols = len(maze[0])
     directions = [(0, -1), (-1, 0), (0, 1), (1, 0)]

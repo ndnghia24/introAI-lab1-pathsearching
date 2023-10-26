@@ -1,6 +1,7 @@
 from queue import PriorityQueue
 
 def gbfs(maze, start, goal, heuristic):
+    print("GBFS Function")
     # Kiểm vị trí S và G trong ma trận
     if start == None or goal == None:
         print("S and G not found")
@@ -13,9 +14,13 @@ def gbfs(maze, start, goal, heuristic):
     # Hướng di chuyển trong maze
     directions = [(0, -1), (-1, 0), (1, 0), (0, 1)]
 
-    # Hàm heuristic
-    def heuristic(node, goal):
-        return ((node[0] - goal[0]) ** 2 + (node[1] - goal[1]) ** 2) ** 0.5
+    # 1: Hàm heuristic khoảng cách Manhattan
+    def heuristic_manhattan(node, goal):
+        return abs(node[0] - goal[0]) + abs(node[1] - goal[1])
+    
+    # 2: Hàm heuristic khoảng cách Euclidean
+    def heuristic_euclidean(node, goal):
+        return ((node[0] - goal[0]) ** 2 + (node[1] - goal[1]) **2) ** 0.5
 
     visited = set()
     priority_queue = PriorityQueue()
@@ -37,6 +42,12 @@ def gbfs(maze, start, goal, heuristic):
             new_x, new_y = x + dx, y + dy
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
-                priority_queue.put((heuristic(next_node, goal), next_node, path + [next_node]))
+
+                if heuristic == 1:
+                    priority = heuristic_manhattan(next_node, goal)
+                elif heuristic == 2:
+                    priority = heuristic_euclidean(next_node, goal)
+                
+                priority_queue.put((priority, next_node, path + [next_node]))
 
     return None, None
