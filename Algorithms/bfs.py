@@ -1,7 +1,6 @@
 from collections import deque
 
-
-def bfs(maze, start_position, end_position):
+def bfs(maze, start_position, end_position, heuristic=None):
     rows = len(maze)
     cols = len(maze[0])
     directions = [(0, -1), (-1, 0), (0, 1), (1, 0)]
@@ -15,7 +14,7 @@ def bfs(maze, start_position, end_position):
         x, y = current_position
 
         if current_position == end_position:
-            return path
+            return len(path), path
 
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
@@ -29,4 +28,4 @@ def bfs(maze, start_position, end_position):
                 new_path = path + [(nx, ny)]
                 queue.append(((nx, ny), new_path))
 
-    return None
+    return None, None

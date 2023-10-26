@@ -7,13 +7,13 @@ def dfs(maze, start, goal, heuristic=None):
     directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 
     visited = set()
-    stack = [(start, [])]
+    stack = [(start, [start])]
 
     while stack:
         current_node, path = stack.pop()
         
         if current_node == goal:
-            return len(path), path + [current_node]
+            return len(path), path
 
         if current_node in visited:
             continue
@@ -25,6 +25,6 @@ def dfs(maze, start, goal, heuristic=None):
             new_x, new_y = x + dx, y + dy
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
-                stack.append((next_node, path + [current_node]))
+                stack.append((next_node, path + [next_node]))
 
     return None, None

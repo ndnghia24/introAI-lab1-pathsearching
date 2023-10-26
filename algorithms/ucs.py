@@ -11,13 +11,13 @@ def ucs(maze, start, goal, heuristic=None):
 
     visited = set()
     priority_queue = PriorityQueue()
-    priority_queue.put((0, start, []))
+    priority_queue.put((0, start, [start]))
 
     while not priority_queue.empty():
         current_cost, current_node, path = priority_queue.get()
 
         if current_node == goal:
-            return current_cost, path + [current_node]
+            return len(path), path
 
         if current_node in visited:
             continue
@@ -30,6 +30,6 @@ def ucs(maze, start, goal, heuristic=None):
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
                 new_cost = current_cost + 1
-                priority_queue.put((new_cost, next_node, path + [current_node]))
+                priority_queue.put((new_cost, next_node, path + [next_node]))
 
     return None, None

@@ -27,7 +27,7 @@ def a_star(maze, start, goal, heuristic):
 
     visited = set()
     priority_queue = PriorityQueue()
-    priority_queue.put((0, start, []))
+    priority_queue.put((0, start, [start]))
 
     while not priority_queue.empty():
         current_cost, current_node, path = priority_queue.get()
@@ -55,8 +55,8 @@ def a_star(maze, start, goal, heuristic):
                     priority = new_cost + heuristic_chebyshev(next_node, goal)
 
                 # double heuristic
-                priority += heuristic_manhattan(next_node, goal) 
+                # priority += heuristic_manhattan(next_node, goal) 
 
-                priority_queue.put((priority, next_node, path + [current_node]))
+                priority_queue.put((priority, next_node, path + [next_node]))
 
     return None, None

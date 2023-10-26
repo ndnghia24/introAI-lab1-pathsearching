@@ -13,12 +13,13 @@ def gbfs(maze, start, goal, heuristic):
     # Hướng di chuyển trong maze
     directions = [(0, -1), (-1, 0), (1, 0), (0, 1)]
 
+    # Hàm heuristic
     def heuristic(node, goal):
         return ((node[0] - goal[0]) ** 2 + (node[1] - goal[1]) ** 2) ** 0.5
 
     visited = set()
     priority_queue = PriorityQueue()
-    priority_queue.put((0, start, []))
+    priority_queue.put((0, start, [start]))
 
     while not priority_queue.empty():
         current_cost, current_node, path = priority_queue.get()
@@ -36,6 +37,6 @@ def gbfs(maze, start, goal, heuristic):
             new_x, new_y = x + dx, y + dy
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
-                priority_queue.put((heuristic(next_node, goal), next_node, path + [current_node]))
+                priority_queue.put((heuristic(next_node, goal), next_node, path + [next_node]))
 
     return None, None

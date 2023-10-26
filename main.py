@@ -60,7 +60,7 @@ def print_maze_result(maze, path, shortest_path_cost):
         print("No path from S to G.")
 
 
-def maze_path_visualize(maze, path):
+def maze_path_visualize(maze, path, cost):
     rows = len(maze)
     cols = len(maze[0])
 
@@ -86,7 +86,7 @@ def maze_path_visualize(maze, path):
             elif maze[y][x] == "E":
                 ax.plot(x, y, marker="o", markersize=10, color="green")
 
-    ax.set_title("Cost: {0}".format(len(path) + 1))
+    ax.set_title("Cost: {0}".format(cost))
     plt.show()
 
 
@@ -94,7 +94,7 @@ def find_path(algo, maze, start, goal, heuristic=None):
     cost, path = algo(maze, start, goal, heuristic)
 
     print_maze_result(maze, path, cost)
-    maze_path_visualize(maze, path)
+    maze_path_visualize(maze, path, cost)
 
 
 #################### MAIN ####################
@@ -107,5 +107,5 @@ if __name__ == "__main__":
     maze, mapping_bonus = load_maze(maze_path)
     start, goal = find_start_goal(maze)
 
-    # A* với heuristic là khoảng cách Chebyshev
-    find_path(a_star, maze, start, goal, 3)
+    # A* với heuristic là khoảng cách Manhattan
+    find_path(a_star, maze, start, goal, 1)
