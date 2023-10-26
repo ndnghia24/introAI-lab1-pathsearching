@@ -1,10 +1,11 @@
 from queue import PriorityQueue
+import math
 
 def a_star(maze, start, goal, heuristic):
     print("A* Function")
 
     # Kiểm vị trí S và G trong ma trận
-    if start == None or goal == None:
+    if start is None or goal is None:
         print("S and G not found")
         return None, 0
     
@@ -21,7 +22,7 @@ def a_star(maze, start, goal, heuristic):
     
     # 2: Hàm heuristic khoảng cách Euclidean
     def heuristic_euclidean(node, goal):
-        return pow((node[0] - goal[0]), 2) + pow((node[1] - goal[1]), 2)
+        return math.sqrt(pow((node[0] - goal[0]), 2) + pow((node[1] - goal[1]), 2))
     
     # 3: Hàm heuristic khoảng cách Chebyshev
     def heuristic_chebyshev(node, goal):
@@ -29,13 +30,14 @@ def a_star(maze, start, goal, heuristic):
 
     visited = set()
     priority_queue = PriorityQueue()
-    priority_queue.put((0, start, [start]))
+    priority_queue.put((0, (1, start, [start])))
+    expanded_nodes = []
 
     while not priority_queue.empty():
-        current_cost, current_node, path = priority_queue.get()
+        priority, (current_cost, current_node, path) = priority_queue.get()
 
         if current_node == goal:
-            return len(path), path
+            return path, len(path), expanded_nodes
 
         if current_node in visited:
             continue
@@ -47,7 +49,7 @@ def a_star(maze, start, goal, heuristic):
             new_x, new_y = x + dx, y + dy
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
-                new_cost = current_cost + 1
+                new_cost = current_cost + math.sqrt(dx * dx + dy * dy)
                 
                 if heuristic == 1:
                     priority = new_cost + heuristic_manhattan(next_node, goal)
@@ -59,6 +61,7 @@ def a_star(maze, start, goal, heuristic):
                 # double heuristic
                 # priority += heuristic_manhattan(next_node, goal) 
 
-                priority_queue.put((priority, next_node, path + [next_node]))
+                priority_queue.put((priority, (new_cost, next_node, path + [next_node])))
+                expanded_nodes.append(path + [next_node])
 
-    return None, None
+    return None, None, None

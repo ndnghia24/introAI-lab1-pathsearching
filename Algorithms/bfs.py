@@ -10,13 +10,16 @@ def bfs(maze, start_position, end_position, heuristic=None):
     visited = set()
     queue = deque()
     queue.append((start_position, [start_position]))
+    visited.add(start_position)
+    expanded_nodes = []
 
     while queue:
         current_position, path = queue.popleft()
+
         x, y = current_position
 
         if current_position == end_position:
-            return len(path), path
+            return path, len(path), expanded_nodes
 
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
@@ -29,5 +32,6 @@ def bfs(maze, start_position, end_position, heuristic=None):
                 visited.add((nx, ny))
                 new_path = path + [(nx, ny)]
                 queue.append(((nx, ny), new_path))
+                expanded_nodes.append(new_path)
 
-    return None, None
+    return None, None, None

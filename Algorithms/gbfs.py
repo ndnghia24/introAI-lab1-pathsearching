@@ -24,13 +24,14 @@ def gbfs(maze, start, goal, heuristic):
 
     visited = set()
     priority_queue = PriorityQueue()
-    priority_queue.put((0, start, [start]))
+    priority_queue.put((0, (start, [start])))
+    expanded_nodes = []
 
     while not priority_queue.empty():
-        current_cost, current_node, path = priority_queue.get()
+        priority, (current_node, path) = priority_queue.get()
 
         if current_node == goal:
-            return len(path), path
+            return path, len(path), expanded_nodes
 
         if current_node in visited:
             continue
@@ -48,6 +49,7 @@ def gbfs(maze, start, goal, heuristic):
                 elif heuristic == 2:
                     priority = heuristic_euclidean(next_node, goal)
                 
-                priority_queue.put((priority, next_node, path + [next_node]))
+                priority_queue.put((priority, (next_node, path + [next_node])))
+                expanded_nodes.append(path + [next_node])
 
-    return None, None
+    return None, None, None

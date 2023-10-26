@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import time
 
 import os
 from Algorithms.ucs import ucs
@@ -44,20 +45,42 @@ def load_maze(maze_path):
         print("Không tìm thấy file maze")
         exit()
 
-def print_maze_result(maze, path, shortest_path_cost):
+def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
     maze_clone = maze.copy()
-    if path is not None:
-            print(f"Min Path Weight SG: {shortest_path_cost}")
-            print("Path:")
-            path.pop(0)
-            path.pop(-1)
-            for node in path:
+
+    for unfinish_path in expanded_nodes:
+        # pause for 1 second
+        # clear console
+        time.sleep(0.005)
+        if unfinish_path is not None:
+            unfinish_path.pop(0)
+            for node in unfinish_path:
                 x, y = node
-                maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
-            for line in maze_clone:
-                print(line)
+                maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
+
+        os.system('cls')
+        print(f"Min Path Weight SG: {shortest_path_cost}")
+        print("Path:")
+        for line in maze_clone:
+            print(line)
+            
+
+    if path is not None:
+        path.pop(0)
+        path.pop(-1)
+        for node in path:
+            x, y = node
+            maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
+
+        os.system('cls')
+        print(f"Min Path Weight SG: {shortest_path_cost}")
+        print("Path:")
+        for line in maze_clone:
+            print(line)
     else:
         print("No path from S to G.")
+
+    return maze_clone
 
 def print_empty_maze(maze):
     maze_clone = maze.copy()
@@ -95,17 +118,27 @@ def maze_path_visualize(maze, path, cost):
 
 
 def find_path(algo, maze, start, goal, heuristic=None):
-    cost, path = algo(maze, start, goal, heuristic)
+    path, cost, expanded_nodes = algo(maze, start, goal, heuristic)
 
-    print_maze_result(maze, path, cost)
+    maze_clone = print_maze_result(maze, path, cost, expanded_nodes)
+
+    def count_expanded_nodes(maze_clone):
+        count = 0
+        for line in maze_clone:
+            for char in line:
+                if char != ' ' and char != 'x':
+                    count += 1
+        return count
+
+    count = count_expanded_nodes(maze_clone)
+    print("Expanded Nodes: ", count)
     # maze_path_visualize(maze, path, cost)
 
 
 #################### MAIN ####################
 if __name__ == "__main__":
-
     # input maze
-    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input5.txt"
+    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input1.txt"
 
     # load maze, tìm điểm đầu cuối và danh sách điểm thưởng
     maze, mapping_bonus = load_maze(maze_path)
@@ -113,11 +146,11 @@ if __name__ == "__main__":
     start, goal = find_start_goal(maze)
 
     # A* với heuristic là khoảng cách Manhattan
-    find_path(dfs, maze, start, goal)
-    find_path(bfs, maze, start, goal)
-    find_path(ucs, maze, start, goal)
-    find_path(gbfs, maze, start, goal, 1)
-    find_path(gbfs, maze, start, goal, 2)
-    find_path(a_star, maze, start, goal, 1)
-    find_path(a_star, maze, start, goal, 2)
     
+    # find_path(dfs, maze, start, goal)
+    # find_path(bfs, maze, start, goal)
+    # find_path(ucs, maze, start, goal)
+    # find_path(gbfs, maze, start, goal, 1)
+    # find_path(gbfs, maze, start, goal, 2)
+    # find_path(a_star, maze, start, goal, 2)
+    find_path(a_star, maze, start, goal, 2)
