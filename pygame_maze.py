@@ -156,7 +156,7 @@ def find_path(algo, maze, start, goal, heuristic=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Maze Solver')
     parser.add_argument('--maze', type=str, 
-                        default='input\level_1\input1.txt',
+                        default='input\level_1\input5.txt',
                         help='Path to the maze file')
     parser.add_argument('--algorithm', type=str, 
                         default='dfs', 
