@@ -128,7 +128,7 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
 
 
 def find_path(algo, maze, start, goal, heuristic=None):
-    path, cost, expanded_nodes = algo(maze, start, goal, heuristic)
+    path, cost, expanded_nodes, runtime = algo(maze, start, goal, heuristic)
 
     maze_clone = print_maze_result(maze, path, cost, expanded_nodes)
 
@@ -143,10 +143,12 @@ def find_path(algo, maze, start, goal, heuristic=None):
     count = count_expanded_nodes(maze_clone)
     print("Path Cost: ", cost)
     print("Expanded Nodes: ", count)
+    print("Runtime: ", runtime*1000)
     # write cost and count to file
     with open("output.txt", "w") as file:
         file.write("Cost: " + str(cost) + "\n")
         file.write("Expanded Nodes: " + str(count) + "\n")
+        file.write("Runtime: " + str(runtime*1000) + "\n")
     # maze_path_visualize(maze, path, cost)
 
 

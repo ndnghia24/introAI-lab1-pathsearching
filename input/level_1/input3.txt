@@ -1,6 +1,6 @@
 0
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-G     x       x     x   x     x x x     x
+G     x   x   x     x   x     x x x     x
 x xxxxx xxx x x xxx xxx x xxx x x xxxxx x
 x       x x x   x       x   x x x x x x x
 x xxxxx x x xxxxxxxxxxx xxx xxx x x x x x
@@ -12,7 +12,7 @@ x     x x x x x x   x x     x x     x x x
 xxxxx x xxxxx xxxxxxx xxx xxx xxx xxx x x
 x     x         x       x         x x   x
 x x xxx x xxxxx xxxxx x xxxxx xxxxx x x x
-x x x x x x     x   x x x   x x  Sx   x x
+x x x x x x         x x x   x x  Sx   x x
 xxxxx xxx x xxx x x xxx xxx xxxxx xxx x x
 x         x x   x x                   x x
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

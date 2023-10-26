@@ -1,4 +1,5 @@
 from collections import deque
+import time
 
 def bfs(maze, start_position, end_position, heuristic=None):
     print("BFS Function")
@@ -6,6 +7,8 @@ def bfs(maze, start_position, end_position, heuristic=None):
     rows = len(maze)
     cols = len(maze[0])
     directions = [(0, -1), (-1, 0), (0, 1), (1, 0)]
+
+    START_TIME = time.perf_counter()
 
     visited = set()
     queue = deque()
@@ -19,7 +22,7 @@ def bfs(maze, start_position, end_position, heuristic=None):
         x, y = current_position
 
         if current_position == end_position:
-            return path, len(path), expanded_nodes
+            return path, len(path), expanded_nodes, time.perf_counter() - START_TIME
 
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
@@ -34,4 +37,4 @@ def bfs(maze, start_position, end_position, heuristic=None):
                 queue.append(((nx, ny), new_path))
                 expanded_nodes.append(new_path)
 
-    return None, None, None
+    return None, None, None, None

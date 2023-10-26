@@ -1,9 +1,10 @@
-from queue import PriorityQueue
+import time
+import heapq
 
 def gbfs(maze, start, goal, heuristic):
     print("GBFS Function")
     # Kiểm vị trí S và G trong ma trận
-    if start == None or goal == None:
+    if start is None or goal is None:
         print("S and G not found")
         return None, 0
     
@@ -20,18 +21,19 @@ def gbfs(maze, start, goal, heuristic):
     
     # 2: Hàm heuristic khoảng cách Euclidean
     def heuristic_euclidean(node, goal):
-        return ((node[0] - goal[0]) ** 2 + (node[1] - goal[1]) **2) ** 0.5
+        return ((node[0] - goal[0]) ** 2 + (node[1] - goal[1]) ** 2) ** 0.5
 
+    START_TIME = time.perf_counter()
     visited = set()
-    priority_queue = PriorityQueue()
-    priority_queue.put((0, (start, [start])))
+    priority_queue = []
+    heapq.heappush(priority_queue, (0, (start, [start])))
     expanded_nodes = []
 
-    while not priority_queue.empty():
-        priority, (current_node, path) = priority_queue.get()
+    while priority_queue:
+        priority, (current_node, path) = heapq.heappop(priority_queue)
 
         if current_node == goal:
-            return path, len(path), expanded_nodes
+            return path, len(path), expanded_nodes, time.perf_counter() - START_TIME
 
         if current_node in visited:
             continue
@@ -51,8 +53,8 @@ def gbfs(maze, start, goal, heuristic):
                 else:
                     print("Heuristic not found")
                     return None, None, None
-                
-                priority_queue.put((priority, (next_node, path + [next_node])))
+
+                heapq.heappush(priority_queue, (priority, (next_node, path + [next_node])))
                 expanded_nodes.append(path + [next_node])
 
-    return None, None, None
+    return None, None, None, None
