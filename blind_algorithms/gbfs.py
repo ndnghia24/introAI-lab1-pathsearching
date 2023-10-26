@@ -44,10 +44,13 @@ def gbfs(maze, start, goal, heuristic):
             if is_valid(new_x, new_y):
                 next_node = (new_x, new_y)
 
-                if heuristic == 1:
+                if heuristic == "heuristic_manhattan":
                     priority = heuristic_manhattan(next_node, goal)
-                elif heuristic == 2:
+                elif heuristic == "heuristic_euclidean":
                     priority = heuristic_euclidean(next_node, goal)
+                else:
+                    print("Heuristic not found")
+                    return None, None, None
                 
                 priority_queue.put((priority, (next_node, path + [next_node])))
                 expanded_nodes.append(path + [next_node])

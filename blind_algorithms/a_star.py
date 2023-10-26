@@ -51,12 +51,15 @@ def a_star(maze, start, goal, heuristic):
                 next_node = (new_x, new_y)
                 new_cost = current_cost + math.sqrt(dx * dx + dy * dy)
                 
-                if heuristic == 1:
+                if heuristic == "heuristic_manhattan":
                     priority = new_cost + heuristic_manhattan(next_node, goal)
-                elif heuristic == 2:
+                elif heuristic == "heuristic_euclidean":
                     priority = new_cost + heuristic_euclidean(next_node, goal)
-                elif heuristic == 3:
+                elif heuristic == "heuristic_chebyshev":
                     priority = new_cost + heuristic_chebyshev(next_node, goal)
+                else:
+                    print("Heuristic not found")
+                    return None, None, None
 
                 # double heuristic
                 # priority += heuristic_manhattan(next_node, goal) 

@@ -82,41 +82,6 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
 
     return maze_clone
 
-def print_empty_maze(maze):
-    maze_clone = maze.copy()
-    for line in maze_clone:
-        print(line)
-
-def maze_path_visualize(maze, path, cost):
-    rows = len(maze)
-    cols = len(maze[0])
-
-    # Tạo bản đồ màu tùy chỉnh
-    cmap = mcolors.ListedColormap(["black", "white", "red", "yellow", "purple", "cyan", "lightblue"])
-    fig, ax = plt.subplots(figsize=(cols, rows))
-    colored_maze = [[6 if cell != "x" else 0 for cell in row] for row in maze]
-    ax.imshow(colored_maze, cmap=cmap, origin="upper")
-    ax.axis("off")
-
-    # Vẽ đường đi
-    if path:
-        path_x, path_y = zip(*path)
-        ax.plot(path_x, path_y, color="red", linewidth=2)
-
-    # Vẽ điểm đầu và cuối
-    start = None
-    end = None
-    for y in range(rows):
-        for x in range(cols):
-            if maze[y][x] == "S":
-                ax.plot(x, y, marker="o", markersize=10, color="yellow")
-            elif maze[y][x] == "E":
-                ax.plot(x, y, marker="o", markersize=10, color="green")
-
-    ax.set_title("Cost: {0}".format(cost))
-    plt.show()
-
-
 def find_path(algo, maze, start, goal, heuristic=None):
     path, cost, expanded_nodes = algo(maze, start, goal, heuristic)
 
