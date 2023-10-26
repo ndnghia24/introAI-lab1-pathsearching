@@ -5,11 +5,11 @@ import time
 import sys
 
 import os
-from Algorithms.ucs import ucs
-from Algorithms.dfs import dfs
-from Algorithms.bfs import bfs
-from Algorithms.a_star import a_star
-from Algorithms.gbfs import gbfs
+from blind_algorithms.ucs import ucs
+from blind_algorithms.dfs import dfs
+from blind_algorithms.bfs import bfs
+from blind_algorithms.a_star import a_star
+from blind_algorithms.gbfs import gbfs
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
