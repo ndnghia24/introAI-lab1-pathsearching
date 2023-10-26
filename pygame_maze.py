@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import pygame
-import threading
+import argparse
 
 
 import os
@@ -25,6 +25,7 @@ def find_start_goal(maze):
 
 
 def load_maze(maze_path):
+    maze_path = os.path.join(os.path.dirname(__file__), maze_path)
     # lưu điểm thưởng 
     mapping_bonus = {}
     # đọc file maze
@@ -151,20 +152,30 @@ def find_path(algo, maze, start, goal, heuristic=None):
 
 #################### MAIN ####################
 if __name__ == "__main__":
-    # input maze
-    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input3.txt"
+    parser = argparse.ArgumentParser(description='Maze Solver')
+    parser.add_argument('--maze', type=str, 
+                        default='input\level_1\input1.txt',
+                        help='Path to the maze file')
+    parser.add_argument('--algorithm', type=str, 
+                        default='dfs', 
+                        choices=['dfs', 'bfs', 'ucs', 'gbfs', 'a_star'], help='Search algorithm to use')
+    parser.add_argument('--heuristic', type=str, 
+                        default='heuristic_manhattan', 
+                        choices=['heuristic_manhattan', 'heuristic_euclidean'], help='Heuristic for GBFS and A*')
 
-    # load maze, tìm điểm đầu cuối và danh sách điểm thưởng
-    maze, mapping_bonus = load_maze(maze_path)
+    args = parser.parse_args()
 
+    # Load maze, find start and goal, and call the appropriate search algorithm
+    maze, mapping_bonus = load_maze(args.maze)
     start, goal = find_start_goal(maze)
 
-    # A* với heuristic là khoảng cách Manhattan
-    
-    # find_path(dfs, maze, start, goal)
-    # find_path(bfs, maze, start, goal)
-    # find_path(ucs, maze, start, goal)
-    find_path(gbfs, maze, start, goal, "heuristic_manhattan")
-    # find_path(gbfs, maze, start, goal, "heuristic_euclidean")
-    # find_path(a_star, maze, start, goal, "heuristic_manhattan")
-    # find_path(a_star, maze, start, goal, "heuristic_euclidean")
+    if args.algorithm == 'dfs':
+        find_path(dfs, maze, start, goal)
+    elif args.algorithm == 'bfs':
+        find_path(bfs, maze, start, goal)
+    elif args.algorithm == 'ucs':
+        find_path(ucs, maze, start, goal)
+    elif args.algorithm == 'gbfs':
+        find_path(gbfs, maze, start, goal, args.heuristic)
+    elif args.algorithm == 'a_star':
+        find_path(a_star, maze, start, goal, args.heuristic)
