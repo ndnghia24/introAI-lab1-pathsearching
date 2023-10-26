@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import pygame
-import time
-import sys
+import threading
+
 
 import os
 from blind_algorithms.ucs import ucs
@@ -22,7 +22,6 @@ def find_start_goal(maze):
             elif maze[i][j] == 'G':
                 goal =  (j, i)
     return start, goal
-
 
 def load_maze(maze_path):
     # lưu điểm thưởng 
@@ -46,40 +45,6 @@ def load_maze(maze_path):
     except FileNotFoundError:
         print("Không tìm thấy file maze")
         exit()
-
-def print_empty_maze(maze):
-    maze_clone = maze.copy()
-    for line in maze_clone:
-        print(line)
-
-def maze_path_visualize(maze, path, cost):
-    rows = len(maze)
-    cols = len(maze[0])
-
-    # Tạo bản đồ màu tùy chỉnh
-    cmap = mcolors.ListedColormap(["black", "white", "red", "yellow", "purple", "cyan", "lightblue"])
-    fig, ax = plt.subplots(figsize=(cols, rows))
-    colored_maze = [[6 if cell != "x" else 0 for cell in row] for row in maze]
-    ax.imshow(colored_maze, cmap=cmap, origin="upper")
-    ax.axis("off")
-
-    # Vẽ đường đi
-    if path:
-        path_x, path_y = zip(*path)
-        ax.plot(path_x, path_y, color="red", linewidth=2)
-
-    # Vẽ điểm đầu và cuối
-    start = None
-    end = None
-    for y in range(rows):
-        for x in range(cols):
-            if maze[y][x] == "S":
-                ax.plot(x, y, marker="o", markersize=10, color="yellow")
-            elif maze[y][x] == "E":
-                ax.plot(x, y, marker="o", markersize=10, color="green")
-
-    ax.set_title("Cost: {0}".format(cost))
-    plt.show()
 
 # Màu sắc
 WHITE = (255, 255, 255)
@@ -111,10 +76,9 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
                     COLOR = BLUE
 
                 pygame.draw.rect(screen, COLOR, (x * cell_size + padding, y * cell_size + padding, cell_size- 2*padding, cell_size- 2*padding))
-    
         pygame.display.update()
 
-
+    # Tạo bản sao của ma trận để vẽ
     maze_clone = maze.copy()
     maze_width = len(maze_clone[0])
     maze_height = len(maze_clone)
@@ -169,6 +133,7 @@ def find_path(algo, maze, start, goal, heuristic=None):
         return count
 
     count = count_expanded_nodes(maze_clone)
+    print("Path Cost: ", cost)
     print("Expanded Nodes: ", count)
     # maze_path_visualize(maze, path, cost)
 
@@ -187,8 +152,8 @@ if __name__ == "__main__":
     
     # find_path(dfs, maze, start, goal)
     # find_path(bfs, maze, start, goal)
-    find_path(ucs, maze, start, goal)
+    # find_path(ucs, maze, start, goal)
     # find_path(gbfs, maze, start, goal, 1)
-    # find_path(gbfs, maze, start, goal, 2)
+    find_path(gbfs, maze, start, goal, 2)
     # find_path(a_star, maze, start, goal, 2)
     # find_path(a_star, maze, start, goal, 2)
