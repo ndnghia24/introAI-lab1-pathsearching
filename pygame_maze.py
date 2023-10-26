@@ -23,6 +23,7 @@ def find_start_goal(maze):
                 goal =  (j, i)
     return start, goal
 
+
 def load_maze(maze_path):
     # lưu điểm thưởng 
     mapping_bonus = {}
@@ -46,12 +47,14 @@ def load_maze(maze_path):
         print("Không tìm thấy file maze")
         exit()
 
+
 # Màu sắc
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 ORANGE = (255, 165, 0)
 RED = (255, 0, 0)
+
 
 def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
 
@@ -76,9 +79,9 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
                     COLOR = BLUE
 
                 pygame.draw.rect(screen, COLOR, (x * cell_size + padding, y * cell_size + padding, cell_size- 2*padding, cell_size- 2*padding))
+    
         pygame.display.update()
 
-    # Tạo bản sao của ma trận để vẽ
     maze_clone = maze.copy()
     maze_width = len(maze_clone[0])
     maze_height = len(maze_clone)
