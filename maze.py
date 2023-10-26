@@ -30,19 +30,22 @@ class Node:
         return self.rect.centerx, self.rect.centery
 
 class SearchSpace:
-    def __init__(self) -> None:
+    def __init__(self, maze_data) -> None:
         self.grid_cells:list[Node] = []
-        for i in range(ROWS):
-            for j in range(COLS):
-                # define the brick's appearing
-                is_brick = True if random.randint(1,3) == 1 else False
-                self.grid_cells.append(Node(j*(A+A1)+BOUND, i*(A+A1)+BOUND, A, i*COLS+j, is_brick))
+        print(maze_data)
+        self.rows = maze_data.__len__()
+        self.cols = maze_data[0].__len__()
+        for i in range(self.rows):
+            for j in range(self.cols):
+                # 
+                is_brick = True if maze_data[i][j] == "x" else False
+                self.grid_cells.append(Node(j*20, i*20, 20, i*self.cols+j, is_brick))
+                if (maze_data[i][j] == "S"):
+                    self.start:Node = self.grid_cells[i*self.cols+j]
+                if (maze_data[i][j] == "G"):
+                    self.goal:Node = self.grid_cells[i*self.cols+j]
 
-        self.start:Node = self.grid_cells[0]
-        self.start.is_brick = False
         self.start._set_color(ORANGE)
-        self.goal:Node = self.grid_cells[-1]
-        self.goal.is_brick = False
         self.goal._set_color(PURPLE)
 
     def draw(self, sc:pygame.Surface):
@@ -57,13 +60,13 @@ class SearchSpace:
         return node.id == self.goal.id
 
     def get_neighbors(self, node: Node) -> list[Node]:
-        x, y = node.id%COLS, node.id//COLS
+        x, y = node.id % self.cols, node.id // self.cols
 
         # define the directions of agent
-        up    = (y-1)*COLS + x if y-1 >= 0 else None
-        down  = (y+1)*COLS + x if y+1 < ROWS else None
-        left  = y*COLS + (x-1) if x-1 >= 0 else None
-        right = y*COLS + (x+1) if x+1 < COLS else None
+        up    = (y-1)*self.cols + x if y-1 >= 0 else None
+        down  = (y+1)*self.cols + x if y+1 < self.rows else None
+        left  = y*self.cols + (x-1) if x-1 >= 0 else None
+        right = y*self.cols + (x+1) if x+1 < self.cols else None
 
         directions = [up, down, left, right]
         # directions = [up, down, left, right]

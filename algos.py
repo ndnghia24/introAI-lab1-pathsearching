@@ -120,18 +120,19 @@ def UCS(g: SearchSpace, sc: pygame.Surface):
 
     print('No path found!')
 
-#heuristic function
-def manhattan_distance(node1, node2):
-    x1, y1 = node1.id % COLS, node1.id // COLS
-    x2, y2 = node2.id % COLS, node2.id // COLS
-    return abs(x1 - x2) + abs(y1 - y2)
-
-def euclidean_distance(pos1, pos2):
-    (x1, y1), (x2, y2) = pos1, pos2
-    return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 def AStar(g: SearchSpace, sc: pygame.Surface):
     print('Implementing AStar algorithm')
+
+        #heuristic function
+    def manhattan_distance(node1, node2):
+        x1, y1 = node1.id % g.cols, node1.id // g.cols
+        x2, y2 = node2.id % g.cols, node2.id // g.cols
+        return abs(x1 - x2) + abs(y1 - y2)
+
+    def euclidean_distance(pos1, pos2):
+        (x1, y1), (x2, y2) = pos1, pos2
+        return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
     open_set = []
     heapq.heappush(open_set, (0, g.start.id))
@@ -188,6 +189,16 @@ def AStar(g: SearchSpace, sc: pygame.Surface):
 
 def GBFS(g: SearchSpace, sc: pygame.Surface):
     print('Implementing GBFS algorithm')
+
+            #heuristic function
+    def manhattan_distance(node1, node2):
+        x1, y1 = node1.id % g.cols, node1.id // g.cols
+        x2, y2 = node2.id % g.cols, node2.id // g.cols
+        return abs(x1 - x2) + abs(y1 - y2)
+
+    def euclidean_distance(pos1, pos2):
+        (x1, y1), (x2, y2) = pos1, pos2
+        return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
     open_set = []
     heapq.heappush(open_set, (0, g.start.id))

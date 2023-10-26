@@ -1,8 +1,9 @@
 import pygame
 from maze import SearchSpace
 from algos import DFS, BFS, UCS, AStar, GBFS
-from const import RES, GREY
+from const import GREY
 import argparse
+import os
 
 
 def draw_button(sc, text, x, y, w, h):
@@ -17,7 +18,7 @@ def main():
     your_name = "your name goes here"
     pygame.init()
     pygame.display.set_caption(f"{your_name} - Search Algorithms")
-    sc = pygame.display.set_mode(RES)
+    sc = pygame.display.set_mode((1280, 768))
     clock = pygame.time.Clock()
 
     algo = None
@@ -49,9 +50,25 @@ def main():
                     algo = 'GBFS'
 
     sc.fill(pygame.color.Color(GREY))
-    g = SearchSpace()
+
+    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\MapTest\MapNotPrize\input1.txt"
+    maze_data = []
+
+    with open(maze_path, "r") as file:
+        n = int(file.readline())
+
+        for i in range(n):
+            buff = file.readline()
+            coordinates = buff.split(" ")
+            
+            x = int(coordinates[0])
+            y = int(coordinates[1])
+            val = int(coordinates[2])
+
+        maze_data = [line.rstrip() for line in file.readlines()]
+
+    g = SearchSpace(maze_data)
     g.draw(sc)
-    clock.tick(200)
 
     if algo == "DFS":
         DFS(g, sc)
