@@ -1,0 +1,2 @@
+Cost: 62
+Expanded Nodes: 90

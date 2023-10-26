@@ -94,14 +94,17 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
     window_height = maze_height * cell_size
     screen = pygame.display.set_mode((window_width, window_height))
     
+    draw_maze(screen, maze_clone)
+    pygame.image.save(screen, "before.png")
+
     for unfinish_path in expanded_nodes:
-        draw_maze(screen, maze_clone)
-        pygame.time.delay(5)  # Delay for 5 milliseconds
         for node in unfinish_path:
             x, y = node
             if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
                 continue
             maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
+        draw_maze(screen, maze_clone)
+        pygame.time.delay(5)  # Delay for 5 milliseconds
 
     if path is not None:
         for node in path:
@@ -111,6 +114,7 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
             maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
 
     draw_maze(screen, maze_clone)
+    pygame.image.save(screen, "after.png")
     
     running = True
     while running:
@@ -138,13 +142,17 @@ def find_path(algo, maze, start, goal, heuristic=None):
     count = count_expanded_nodes(maze_clone)
     print("Path Cost: ", cost)
     print("Expanded Nodes: ", count)
+    # write cost and count to file
+    with open("output.txt", "w") as file:
+        file.write("Cost: " + str(cost) + "\n")
+        file.write("Expanded Nodes: " + str(count) + "\n")
     # maze_path_visualize(maze, path, cost)
 
 
 #################### MAIN ####################
 if __name__ == "__main__":
     # input maze
-    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input1.txt"
+    maze_path = str(os.path.dirname(os.path.abspath(__file__))) + "\input\level_1\input3.txt"
 
     # load maze, tìm điểm đầu cuối và danh sách điểm thưởng
     maze, mapping_bonus = load_maze(maze_path)
