@@ -1,6 +1,6 @@
 0
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-G x                     x           x   x
+  x                     x           x   x
 x x x xxx xxx x xxxxx x xxx xxxxxxx x xxx
 x   x   x x   x     x x       x x     x x
 xxxxxxxxx xxxxxxxxxxx xxxxxxx x xxx xxx x

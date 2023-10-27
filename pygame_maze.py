@@ -19,7 +19,7 @@ def find_start_goal(maze):
         for j in range(len(maze[i])):
             if maze[i][j] == 'S':
                 start = (j, i)
-            elif maze[i][j] == 'G':
+            elif maze[i][j] == ' ' and (i == 0 or i == len(maze) - 1 or j == 0 or j == len(maze[i]) - 1):
                 goal =  (j, i)
     return start, goal
 
@@ -59,25 +59,28 @@ RED = (255, 0, 0)
 
 def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_nodes, visualize=None):
 
+    start, goal = find_start_goal(maze)
+
     def draw_maze(screen, maze):
         maze_width = len(maze[0])
         maze_height = len(maze)
         cell_size = 30
         padding = cell_size*0.05
 
-        for y, row in enumerate(maze):
-            for x, cell in enumerate(row):
+        for y in range(len(maze)):
+            for x in range(len(maze[y])):
+                cell = maze[y][x]
                 COLOR = BLACK
-                if cell == ' ':
+                if (x, y) == start:
+                    COLOR = RED
+                elif (x, y) == goal:
+                    COLOR = BLUE
+                elif cell == ' ':
                     COLOR = WHITE
                 elif cell == '█':
                     COLOR = RED
                 elif cell == '▒':
                     COLOR = ORANGE
-                elif cell == 'S':
-                    COLOR = RED
-                elif cell == 'G':
-                    COLOR = BLUE
 
                 pygame.draw.rect(screen, COLOR, (x * cell_size + padding, y * cell_size + padding, cell_size- 2*padding, cell_size- 2*padding))
     
@@ -92,13 +95,13 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
         for unfinish_path in expanded_nodes:
             for node in unfinish_path:
                 x, y = node
-                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                if node == start or node == goal:
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
         if path is not None:
             for node in path:
                 x, y = node
-                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                if node == start or node == goal:
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
     else:
@@ -115,7 +118,7 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
         for unfinish_path in expanded_nodes:
             for node in unfinish_path:
                 x, y = node
-                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                if node == start or node == goal:
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
             draw_maze(screen, maze_clone)
@@ -124,7 +127,7 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
         if path is not None:
             for node in path:
                 x, y = node
-                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                if node == start or node == goal:
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
 
