@@ -8,7 +8,7 @@ def a_star(maze, start, goal, heuristic):
     # Kiểm vị trí S và G trong ma trận
     if start is None or goal is None:
         print("S and G not found")
-        return None, 0
+        return None, None, None, None
 
     # Hàm để kiểm tra đường đi hợp lệ
     def is_valid(x, y):
@@ -61,7 +61,7 @@ def a_star(maze, start, goal, heuristic):
                     priority = new_cost + heuristic_chebyshev(next_node, goal)
                 else:
                     print("Heuristic not found")
-                    return None, None, None
+                    return None, None, None, None
 
                 # double heuristic
                 # priority += heuristic_manhattan(next_node, goal)

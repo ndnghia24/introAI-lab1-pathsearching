@@ -17,7 +17,7 @@ def find_start_goal(maze):
         for j in range(len(maze[i])):
             if maze[i][j] == 'S':
                 start = (j, i)
-            elif maze[i][j] == 'G':
+            elif maze[i][j] == ' ' and (i == 0 or i == len(maze) - 1 or j == 0 or j == len(maze[i]) - 1):
                 goal =  (j, i)
     return start, goal
 
@@ -83,7 +83,7 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
     return maze_clone
 
 def find_path(algo, maze, start, goal, heuristic=None):
-    path, cost, expanded_nodes = algo(maze, start, goal, heuristic)
+    path, cost, expanded_nodes, runtime = algo(maze, start, goal, heuristic)
 
     maze_clone = print_maze_result(maze, path, cost, expanded_nodes)
 
@@ -118,4 +118,4 @@ if __name__ == "__main__":
     # find_path(gbfs, maze, start, goal, 1)
     # find_path(gbfs, maze, start, goal, 2)
     # find_path(a_star, maze, start, goal, 2)
-    find_path(a_star, maze, start, goal, 2)
+    find_path(a_star, maze, start, goal, "heuristic_manhattan")
