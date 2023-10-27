@@ -57,7 +57,7 @@ ORANGE = (255, 165, 0)
 RED = (255, 0, 0)
 
 
-def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_nodes, visualize=False):
+def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_nodes, visualize=None):
 
     def draw_maze(screen, maze):
         maze_width = len(maze[0])
@@ -88,7 +88,7 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
     maze_height = len(maze_clone)
     cell_size = 30
 
-    if visualize == False:
+    if visualize == "False" or visualize == "false" or visualize == None:
         for unfinish_path in expanded_nodes:
             for node in unfinish_path:
                 x, y = node
@@ -142,10 +142,10 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
     return maze_clone
 
 
-def find_path(algo, maze, output_path, start, goal, heuristic=None):
+def find_path(algo, maze, output_path, start, goal, heuristic=None, visualize=None):
     path, cost, expanded_nodes, runtime = algo(maze, start, goal, heuristic)
 
-    maze_clone = print_maze_result(maze, output_path, path, cost, expanded_nodes)
+    maze_clone = print_maze_result(maze, output_path, path, cost, expanded_nodes, visualize)
 
     def count_expanded_nodes(maze_clone):
         count = 0
@@ -165,9 +165,6 @@ if __name__ == "__main__":
     parser.add_argument('--maze', type=str, 
                         required=True,
                         help='Path to the maze file')
-    parser.add_argument('--output', type=str, 
-                        required=False,
-                        help='Path to the maze file')
     parser.add_argument('--algorithm', type=str, 
                         required=True,
                         choices=['dfs', 'bfs', 'ucs', 'gbfs', 'a_star'], help='Search algorithm to use')
@@ -181,9 +178,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # input\level_1\input1.txt
-    intput_path = args.maze
+    input_path = args.maze
     algorithm = args.algorithm
-    output_path = os.path.join("output\\" + intput_path.split("\\", 1)[1].split(".", 1)[0], algorithm)
+    output_path = os.path.join(input_path.replace("input\\", "output\\").split(".")[0], algorithm)
     output_path = os.path.join(output_path)
 
     # Create output path
@@ -196,18 +193,22 @@ if __name__ == "__main__":
     start, goal = find_start_goal(maze)
 
     if args.algorithm == 'dfs':
-        cost, expanded_nodes_counter, runtime = find_path(dfs, maze, output_path, start, goal)
+        cost, expanded_nodes_counter, runtime = find_path(dfs, maze, output_path, start, goal, visualize=args.visualize)
     elif args.algorithm == 'bfs':
-        cost, expanded_nodes_counter, runtime = find_path(bfs, maze, output_path, start, goal)
+        cost, expanded_nodes_counter, runtime = find_path(bfs, maze, output_path, start, goal, visualize=args.visualize)
     elif args.algorithm == 'ucs':
-        cost, expanded_nodes_counter, runtime = find_path(ucs, maze, output_path, start, goal)
+        cost, expanded_nodes_counter, runtime = find_path(ucs, maze, output_path, start, goal, visualize=args.visualize)
     elif args.algorithm == 'gbfs':
-        cost, expanded_nodes_counter, runtime = find_path(gbfs, maze, output_path, start, goal, args.heuristic)
+        cost, expanded_nodes_counter, runtime = find_path(gbfs, maze, output_path, start, goal, heuristic=args.heuristic, visualize=args.visualize)
     elif args.algorithm == 'a_star':
-        cost, expanded_nodes_counter, runtime = find_path(a_star, maze, output_path, start, goal, args.heuristic)
+        cost, expanded_nodes_counter, runtime = find_path(a_star, maze, output_path, start, goal, heuristic=args.heuristic, visualize=args.visualize)
 
     # Write the result to a text file
     with open(output_path + ".txt", "w") as file:
         file.write("Cost: " + str(cost) + "\n")
         file.write("Expanded Nodes: " + str(expanded_nodes_counter) + "\n")
         file.write("Runtime: " + str(runtime) + " ms\n")
+
+
+    #### Example of how to call the search algorithms ####
+    # > python pygame_maze.py --maze input\level_1\input1.txt --algorithm a_star --heuristic heuristic_manhattan --visualize True

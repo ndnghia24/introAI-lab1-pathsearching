@@ -1,1 +1,0 @@
-python pygame_maze.py --maze input\level_1\input1.txt --algorithm a_star --visualize True
