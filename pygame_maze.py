@@ -57,7 +57,7 @@ ORANGE = (255, 165, 0)
 RED = (255, 0, 0)
 
 
-def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
+def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_nodes, visualize=False):
 
     def draw_maze(screen, maze):
         maze_width = len(maze[0])
@@ -88,49 +88,64 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
     maze_height = len(maze_clone)
     cell_size = 30
 
-    # Khởi tạo Pygame
-    pygame.init()
-    # Kích thước cửa sổ Pygame
-    window_width = maze_width * cell_size
-    window_height = maze_height * cell_size
-    screen = pygame.display.set_mode((window_width, window_height))
-    
-    draw_maze(screen, maze_clone)
-    pygame.image.save(screen, "before.png")
-
-    for unfinish_path in expanded_nodes:
-        for node in unfinish_path:
-            x, y = node
-            if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
-                continue
-            maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
+    if visualize == False:
+        for unfinish_path in expanded_nodes:
+            for node in unfinish_path:
+                x, y = node
+                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                    continue
+                maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
+        if path is not None:
+            for node in path:
+                x, y = node
+                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                    continue
+                maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
+    else:
+        # Khởi tạo Pygame
+        pygame.init()
+        # Kích thước cửa sổ Pygame
+        window_width = maze_width * cell_size
+        window_height = maze_height * cell_size
+        screen = pygame.display.set_mode((window_width, window_height))
+        
         draw_maze(screen, maze_clone)
-        pygame.time.delay(5)  # Delay for 5 milliseconds
+        pygame.image.save(screen, output_path + "_origin.jpg")
 
-    if path is not None:
-        for node in path:
-            x, y = node
-            if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
-                continue
-            maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
+        for unfinish_path in expanded_nodes:
+            for node in unfinish_path:
+                x, y = node
+                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                    continue
+                maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
+            draw_maze(screen, maze_clone)
+            pygame.time.delay(5)  # Delay for 5 milliseconds
 
-    draw_maze(screen, maze_clone)
-    pygame.image.save(screen, "after.png")
-    
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-    
-    pygame.quit()
+        if path is not None:
+            for node in path:
+                x, y = node
+                if maze_clone[y][x] == 'S' or maze_clone[y][x] == 'G':
+                    continue
+                maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
+
+        draw_maze(screen, maze_clone)
+        pygame.image.save(screen, output_path + ".jpg")
+        
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+        
+        pygame.quit()
+
     return maze_clone
 
 
-def find_path(algo, maze, start, goal, heuristic=None):
+def find_path(algo, maze, output_path, start, goal, heuristic=None):
     path, cost, expanded_nodes, runtime = algo(maze, start, goal, heuristic)
 
-    maze_clone = print_maze_result(maze, path, cost, expanded_nodes)
+    maze_clone = print_maze_result(maze, output_path, path, cost, expanded_nodes)
 
     def count_expanded_nodes(maze_clone):
         count = 0
@@ -140,44 +155,59 @@ def find_path(algo, maze, start, goal, heuristic=None):
                     count += 1
         return count
 
-    count = count_expanded_nodes(maze_clone)
-    print("Path Cost: ", cost)
-    print("Expanded Nodes: ", count)
-    print("Runtime: ", runtime*1000)
-    # write cost and count to file
-    with open("output.txt", "w") as file:
-        file.write("Cost: " + str(cost) + "\n")
-        file.write("Expanded Nodes: " + str(count) + "\n")
-        file.write("Runtime: " + str(runtime*1000) + "\n")
-    # maze_path_visualize(maze, path, cost)
+    expanded_nodes_counter = count_expanded_nodes(maze_clone)
 
+    return cost, expanded_nodes_counter, runtime*1000
 
 #################### MAIN ####################
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Maze Solver')
     parser.add_argument('--maze', type=str, 
-                        default='input\level_1\input5.txt',
+                        required=True,
+                        help='Path to the maze file')
+    parser.add_argument('--output', type=str, 
+                        required=False,
                         help='Path to the maze file')
     parser.add_argument('--algorithm', type=str, 
-                        default='dfs', 
+                        required=True,
                         choices=['dfs', 'bfs', 'ucs', 'gbfs', 'a_star'], help='Search algorithm to use')
     parser.add_argument('--heuristic', type=str, 
-                        default='heuristic_manhattan', 
+                        default='heuristic_manhattan',
                         choices=['heuristic_manhattan', 'heuristic_euclidean'], help='Heuristic for GBFS and A*')
+    parser.add_argument('--visualize', type=str, 
+                        default='False',
+                        choices=['True', 'False'], help='Visualize the search process in PyGame')
 
     args = parser.parse_args()
+
+    # input\level_1\input1.txt
+    intput_path = args.maze
+    algorithm = args.algorithm
+    output_path = os.path.join("output\\" + intput_path.split("\\", 1)[1].split(".", 1)[0], algorithm)
+    output_path = os.path.join(output_path)
+
+    # Create output path
+    if not os.path.exists(output_path):
+        os.makedirs(output_path, exist_ok=True)
+    output_path = os.path.join(output_path, algorithm)
 
     # Load maze, find start and goal, and call the appropriate search algorithm
     maze, mapping_bonus = load_maze(args.maze)
     start, goal = find_start_goal(maze)
 
     if args.algorithm == 'dfs':
-        find_path(dfs, maze, start, goal)
+        cost, expanded_nodes_counter, runtime = find_path(dfs, maze, output_path, start, goal)
     elif args.algorithm == 'bfs':
-        find_path(bfs, maze, start, goal)
+        cost, expanded_nodes_counter, runtime = find_path(bfs, maze, output_path, start, goal)
     elif args.algorithm == 'ucs':
-        find_path(ucs, maze, start, goal)
+        cost, expanded_nodes_counter, runtime = find_path(ucs, maze, output_path, start, goal)
     elif args.algorithm == 'gbfs':
-        find_path(gbfs, maze, start, goal, args.heuristic)
+        cost, expanded_nodes_counter, runtime = find_path(gbfs, maze, output_path, start, goal, args.heuristic)
     elif args.algorithm == 'a_star':
-        find_path(a_star, maze, start, goal, args.heuristic)
+        cost, expanded_nodes_counter, runtime = find_path(a_star, maze, output_path, start, goal, args.heuristic)
+
+    # Write the result to a text file
+    with open(output_path + ".txt", "w") as file:
+        file.write("Cost: " + str(cost) + "\n")
+        file.write("Expanded Nodes: " + str(expanded_nodes_counter) + "\n")
+        file.write("Runtime: " + str(runtime) + " ms\n")
