@@ -51,7 +51,7 @@ def print_maze_result(maze, path, shortest_path_cost, expanded_nodes):
     for unfinish_path in expanded_nodes:
         # pause for 1 second
         # clear console
-        time.sleep(0.005)
+        time.sleep(0.01)
         if unfinish_path is not None:
             unfinish_path.pop(0)
             for node in unfinish_path:
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     # find_path(dfs, maze, start, goal)
     # find_path(bfs, maze, start, goal)
     # find_path(ucs, maze, start, goal)
-    # find_path(gbfs, maze, start, goal, 1)
-    # find_path(gbfs, maze, start, goal, 2)
-    # find_path(a_star, maze, start, goal, 2)
-    find_path(a_star, maze, start, goal, "heuristic_manhattan")
+    # find_path(gbfs, maze, start, goal, "heuristic_manhattan")
+    # find_path(gbfs, maze, start, goal, "heuristic_euclidean")
+    # find_path(a_star, maze, start, goal, "heuristic_manhattan")
+    find_path(a_star, maze, start, goal, "heuristic_euclidean")
