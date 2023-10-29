@@ -178,8 +178,8 @@ if __name__ == "__main__":
                         required=True,
                         choices=['dfs', 'bfs', 'ucs', 'gbfs', 'a_star'], help='Search algorithm to use')
     parser.add_argument('--heuristic', type=str, 
-                        default='heuristic_manhattan',
-                        choices=['','heuristic_manhattan', 'heuristic_euclidean'], help='Heuristic for GBFS and A*')
+                        default='1',
+                        choices=['','1', '2'], help='Heuristic for GBFS and A*')
     parser.add_argument('--visualize', type=str, 
                         default='False',
                         choices=['True', 'False'], help='Visualize the search process in PyGame')
@@ -193,7 +193,7 @@ if __name__ == "__main__":
 
     # custom output heuristic path extention
     if heuristic != "":
-        output_path = os.path.join(input_path.replace("input\\", "output\\").split(".")[0], algorithm + "_" + heuristic)
+        output_path = os.path.join(input_path.replace("input\\", "output\\").split(".")[0], algorithm + "_heuristic_" + str(heuristic))
     else:
         output_path = os.path.join(input_path.replace("input\\", "output\\").split(".")[0], algorithm)
     output_path = os.path.join(output_path)

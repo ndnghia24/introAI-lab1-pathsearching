@@ -27,9 +27,9 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
         for algo in algorithm:
             arguments[5] = algo
             if algo == "a_star" or algo == "gbfs":
-                arguments[7] = "heuristic_manhattan"
+                arguments[7] = "1"
                 subprocess.run(arguments)
-                arguments[7] = "heuristic_euclidean"
+                arguments[7] = "2"
                 subprocess.run(arguments)
             else:
                 arguments[7] = ""
