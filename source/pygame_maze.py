@@ -4,11 +4,11 @@ import imageio
 import os
 import numpy as np
 
-from blind_algorithms.ucs import ucs
-from blind_algorithms.dfs import dfs
-from blind_algorithms.bfs import bfs
-from blind_algorithms.a_star import a_star
-from blind_algorithms.gbfs import gbfs
+from noBonus_algorithms.ucs import ucs
+from noBonus_algorithms.dfs import dfs
+from noBonus_algorithms.bfs import bfs
+from noBonus_algorithms.a_star import a_star
+from noBonus_algorithms.gbfs import gbfs
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
@@ -116,7 +116,6 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
         
         draw_maze(screen, maze_clone)
         images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
-        pygame.image.save(screen, output_path + "_origin.jpg")
 
         for unfinish_path in expanded_nodes:
             for node in unfinish_path:
@@ -138,10 +137,9 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
 
         draw_maze(screen, maze_clone)
         images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
-        pygame.image.save(screen, output_path + ".jpg")
 
         # Lưu video
-        imageio.mimsave(output_path + ".mp4", images_list, fps=60, quality=5, codec="libx264", pixelformat="yuv420p")
+        imageio.mimsave(output_path + ".mp4", images_list, fps=30, quality=5, codec="libx264", pixelformat="yuv420p")
         
         pygame.quit()
 
@@ -150,6 +148,9 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
 
 def find_path(algo, maze, output_path, start, goal, heuristic=None, visualize=None):
     path, cost, expanded_nodes, runtime = algo(maze, start, goal, heuristic)
+
+    if (cost is None):
+        return None, None, None
 
     maze_clone = print_maze_result(maze, output_path, path, cost, expanded_nodes, visualize)
 
@@ -215,11 +216,17 @@ if __name__ == "__main__":
     elif args.algorithm == 'a_star':
         cost, expanded_nodes_counter, runtime = find_path(a_star, maze, output_path, start, goal, heuristic=args.heuristic, visualize=args.visualize)
 
-    # Write the result to a text file
-    with open(output_path + ".txt", "w") as file:
+    """# Write the result to a text file
+    with open(output_path + "_detail.txt", "w") as file:
         file.write("Cost: " + str(cost) + "\n")
         file.write("Expanded Nodes: " + str(expanded_nodes_counter) + "\n")
-        file.write("Runtime: " + str(runtime) + " ms\n")
+        file.write("Runtime: " + str(runtime) + " ms\n")"""
+
+    with open(output_path + ".txt", "w") as file:
+        if (cost is not None):
+            file.write(str(cost))
+        else:
+            file.write("NO")
 
 
     #### Example of how to call the search algorithms ####

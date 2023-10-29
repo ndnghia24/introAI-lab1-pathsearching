@@ -3,11 +3,11 @@ import matplotlib.colors as mcolors
 import time
 
 import os
-from blind_algorithms.ucs import ucs
-from blind_algorithms.dfs import dfs
-from blind_algorithms.bfs import bfs
-from blind_algorithms.a_star import a_star
-from blind_algorithms.gbfs import gbfs
+from noBonus_algorithms.ucs import ucs
+from noBonus_algorithms.dfs import dfs
+from noBonus_algorithms.bfs import bfs
+from noBonus_algorithms.a_star import a_star
+from noBonus_algorithms.gbfs import gbfs
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận

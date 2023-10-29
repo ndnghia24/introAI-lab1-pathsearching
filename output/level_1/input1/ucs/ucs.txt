@@ -1,3 +1,0 @@
-Cost: 56
-Expanded Nodes: 300
-Runtime: 0.9902000001602573 ms
