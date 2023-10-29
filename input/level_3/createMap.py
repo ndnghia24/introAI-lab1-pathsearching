@@ -48,11 +48,11 @@ def save_maze(maze, mapping_bonus, output_file):
 # get current file directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-maze, mapping_bonus = load_maze(current_dir + "/input3.txt")
+maze, mapping_bonus = load_maze(current_dir + "/input5.txt")
 
 # add to list
-for i in range(10):
-    mapping_bonus[(random.randint(1, len(maze[0]) - 2), random.randint(1, len(maze) - 2))] = random.randint(-10, 0)
+for i in range(25):
+    mapping_bonus[(random.randint(1, len(maze[0]) - 2), random.randint(1, len(maze) - 2))] = 0
 
-save_maze(maze, mapping_bonus, current_dir + "/input3_3.txt")
+save_maze(maze, mapping_bonus, current_dir + "/input3.txt")
 
