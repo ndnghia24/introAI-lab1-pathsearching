@@ -18,7 +18,7 @@ algorithm = ["dfs", "bfs", "ucs", "gbfs", "a_star"]
 
 print(arguments[3], arguments[5], arguments)
 
-for root, dirs, files in os.walk(os.path.join(mother_dir, "input")):
+for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
     for file in files:
         # Get the input file path
         input_path = os.path.join(root, file)
