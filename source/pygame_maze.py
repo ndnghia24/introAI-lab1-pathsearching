@@ -115,7 +115,8 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
         screen = pygame.display.set_mode((window_width, window_height))
         
         draw_maze(screen, maze_clone)
-        images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
+        for i in range(30):
+            images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
 
         for unfinish_path in expanded_nodes:
             for node in unfinish_path:
@@ -136,7 +137,8 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
 
         draw_maze(screen, maze_clone)
-        images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
+        for i in range(30):
+            images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
 
         # Lưu video
         imageio.mimsave(output_path + ".mp4", images_list, fps=30, quality=5, codec="libx264", pixelformat="yuv420p")
