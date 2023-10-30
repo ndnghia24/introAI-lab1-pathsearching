@@ -105,9 +105,7 @@ def bonus(maze,start,goal,mapping_bonus, heuristic=None):
         if (i > len(bonus_point) - 1): break
         dict_maze[bonus_point[i]] = construct_bonus_maze(bonus_point[i],maze)
 
-    for items in bonus_point:
-        if (dict_maze[items][goal] +  mapping_bonus[items] > 0):
-            bonus_point.remove(items)
+    dict_maze[start] = construct_bonus_maze(start,maze)
 
     current_node = start
 
@@ -118,12 +116,16 @@ def bonus(maze,start,goal,mapping_bonus, heuristic=None):
     while current_node != goal:
         point = None
         min_heuristic = sys.maxsize
+        print(bonus_point)
         for items in bonus_point:
             heuristic = dict_maze[items][current_node] + mapping_bonus[items] + dict_maze[items][goal]
             if heuristic < min_heuristic:
                 min_heuristic = heuristic
                 point = items
-
+        
+        print(current_node)
+        print(min_heuristic)
+        print(dict_maze[current_node][goal])
         if min_heuristic == sys.maxsize:
             # khong co diem thuong nao co the loi duong khi di den goal 
             t_path,t_cost,t_expandedNode,temp = a_star(maze,current_node,goal,heuristic="1") # heuristic_manhattan
@@ -131,7 +133,7 @@ def bonus(maze,start,goal,mapping_bonus, heuristic=None):
             cost = cost + t_cost
             expandNode = expandNode + t_expandedNode
             current_node = goal
-        elif min_heuristic > 0:
+        elif min_heuristic > dict_maze[current_node][goal]:
             # diem thuong khong loi duong khi den goal
             t_path,t_cost,t_expandedNode,temp = a_star(maze,current_node,goal,heuristic="1") # heuristic_manhattan
             path = path + t_path
