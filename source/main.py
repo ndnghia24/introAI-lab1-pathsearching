@@ -14,9 +14,9 @@ arguments = [
     "--visualize", "True"
 ]
 
+# normal maze
 algorithm = ["dfs", "bfs", "ucs", "gbfs", "a_star"]
 
-# normal maze
 for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
     for file in files:
         arguments[1] = os.path.join(current_dir, "pygame_maze.py")
