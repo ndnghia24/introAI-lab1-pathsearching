@@ -235,4 +235,4 @@ if __name__ == "__main__":
 
 
     #### Example of how to call the search algorithms ####
-    # > python pygame_maze.py --maze input\level_1\input1.txt --algorithm a_star --heuristic heuristic_manhattan --visualize True
+    # > python source\pygame_maze.py --maze input\level_1\input1.txt --algorithm a_star --heuristic heuristic_manhattan --visualize True
