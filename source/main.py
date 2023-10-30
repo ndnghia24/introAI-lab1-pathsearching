@@ -16,7 +16,7 @@ arguments = [
 
 algorithm = ["dfs", "bfs", "ucs", "gbfs", "a_star"]
 
-# normal maze
+"""# normal maze
 for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
     for file in files:
         arguments[1] = os.path.join(current_dir, "pygame_maze.py")
@@ -33,9 +33,21 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
                 subprocess.run(arguments)
             else:
                 arguments[7] = ""
-                subprocess.run(arguments)
+                subprocess.run(arguments)"""
 
-# teleport maze
+# full bonus maze
+for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\level_3")):
+    for file in files:
+        arguments[1] = os.path.join(current_dir, "pygame_fullBonus_maze.py")
+        # Get the input file path
+        input_path = os.path.join(root, file)
+        arguments[3] = input_path
+        arguments[5] = "find_path_with_diem_don"
+        arguments[7] = ""
+        subprocess.run(arguments)
+
+
+"""# teleport maze
 for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\advance")):
     for file in files:
         arguments[1] = os.path.join(current_dir, "pygame_teleport_maze.py")
@@ -44,4 +56,4 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\advance")):
         arguments[3] = input_path
         arguments[5] = "ucs_teleport"
         arguments[7] = ""
-        subprocess.run(arguments)
+        subprocess.run(arguments)"""
