@@ -185,7 +185,7 @@ if __name__ == "__main__":
                         required=True,
                         help='Path to the maze file')
     parser.add_argument('--algorithm', type=str, 
-                        required=True,
+                        default='ucs_teleport',
                         choices=['ucs_teleport', 'a_star_teleport'], help='Search algorithm to use')
     parser.add_argument('--heuristic', type=str, 
                         default='',
@@ -225,3 +225,6 @@ if __name__ == "__main__":
             file.write(str(cost))
         else:
             file.write("NO")
+
+    #### Example of how to call the search algorithms ####
+    # > python source\pygame_halfBonus_maze.py --maze input\advance\input1.txt --visualize True

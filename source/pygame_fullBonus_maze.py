@@ -200,7 +200,7 @@ if __name__ == "__main__":
                         required=True,
                         help='Path to the maze file')
     parser.add_argument('--algorithm', type=str, 
-                        required=True,
+                        default='find_path_with_diem_don',
                         choices=['find_path_with_diem_don'], help='Search algorithm to use')
     parser.add_argument('--heuristic', type=str, 
                         default='',
@@ -243,4 +243,4 @@ if __name__ == "__main__":
 
 
     #### Example of how to call the search algorithms ####
-    # > python pygame_maze.py --maze input\level_1\input1.txt --algorithm a_star --heuristic heuristic_manhattan --visualize True
+    # > python source\pygame_fullBonus_maze.py --maze input\level_3\input1.txt --visualize True
