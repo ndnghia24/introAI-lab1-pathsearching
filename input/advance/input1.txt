@@ -1,0 +1,21 @@
+3
+31 5 21 11
+37 5 11 5
+13 9 12 15
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  x                     x           x   x
+x x x xxx xxx x xxxxx x xxx xxxxxxx x xxx
+x   x   x x   x     x x       x x     x x
+xxxxxxxxx xxxxxxxxxxx xxxxxxx x xxx xxx x
+x       x  2      x x   x     1   x 2   x
+x x x xxxxx xxx x x x x x x xxx x x x xxx
+x x x       x   x   x x x x x   x x x   x
+xxx xxxxx xxx xxx xxxxxxx x x xxxxx xxx x
+x x     x x 3 x x       x x x   x     x x
+x x xxxxx x x x xxxxxxx xxxxxxx xxxxx xxx
+x   x       x   x   1       x x x       x
+xxx x x xxxxxxxxxxx x x x x x xxxxx xxxxx
+x   x x   x     x   x x x x        S  x x
+xxx x xxx xxx xxxxx x xxx xxxxx xxx x x x
+x   x   x  3      x x x       x     x   x
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

@@ -9,17 +9,17 @@ mother_dir = os.path.dirname(current_dir)
 arguments = [
     "python", os.path.join(current_dir, "pygame_maze.py"),
     "--maze", os.path.join(mother_dir, "input\\level_1\\input1.txt"),
-    "--algorithm", "a_star",
-    "--heuristic", "heuristic_manhattan",
+    "--algorithm", "ucs",
+    "--heuristic", "",
     "--visualize", "True"
 ]
 
 algorithm = ["dfs", "bfs", "ucs", "gbfs", "a_star"]
 
-print(arguments[3], arguments[5], arguments)
-
+# normal maze
 for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
     for file in files:
+        arguments[1] = os.path.join(current_dir, "pygame_maze.py")
         # Get the input file path
         input_path = os.path.join(root, file)
         arguments[3] = input_path
@@ -34,3 +34,14 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
             else:
                 arguments[7] = ""
                 subprocess.run(arguments)
+
+# teleport maze
+for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\advance")):
+    for file in files:
+        arguments[1] = os.path.join(current_dir, "pygame_teleport_maze.py")
+        # Get the input file path
+        input_path = os.path.join(root, file)
+        arguments[3] = input_path
+        arguments[5] = "ucs_teleport"
+        arguments[7] = ""
+        subprocess.run(arguments)
