@@ -54,6 +54,7 @@ BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 ORANGE = (255, 165, 0)
 RED = (255, 0, 0)
+LIGHT_GREEN = (0, 245, 0)
 
 
 def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_nodes, visualize=None):
@@ -80,6 +81,8 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
                     COLOR = RED
                 elif cell == '▒':
                     COLOR = ORANGE
+                elif cell == '+':
+                    COLOR = LIGHT_GREEN
 
                 pygame.draw.rect(screen, COLOR, (x * cell_size + padding, y * cell_size + padding, cell_size- 2*padding, cell_size- 2*padding))
     
@@ -121,7 +124,7 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
         for unfinish_path in expanded_nodes:
             for node in unfinish_path:
                 x, y = node
-                if node == start or node == goal:
+                if node == start or node == goal or maze_clone[y][x] == '+':
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '▒' + maze_clone[y][x + 1:]
             draw_maze(screen, maze_clone)
@@ -132,11 +135,11 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
         if path is not None:
             for node in path:
                 x, y = node
-                if node == start or node == goal:
+                if node == start or node == goal or maze_clone[y][x] == '+':
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
+                draw_maze(screen, maze_clone)
 
-        draw_maze(screen, maze_clone)
         for i in range(30):
             images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
 
