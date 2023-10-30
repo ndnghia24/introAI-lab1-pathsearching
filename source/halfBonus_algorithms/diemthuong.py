@@ -116,12 +116,13 @@ def bonus(maze,start,goal,mapping_bonus, heuristic=None):
     while current_node != goal:
         point = None
         min_heuristic = sys.maxsize
+
         for items in bonus_point:
             heuristic = dict_maze[items][current_node] + mapping_bonus[items] + dict_maze[items][goal]
             if heuristic < min_heuristic:
                 min_heuristic = heuristic
                 point = items
-    
+        
         if min_heuristic == sys.maxsize:
             # khong co diem thuong nao co the loi duong khi di den goal 
             t_path,t_cost,t_expandedNode,temp = a_star(maze,current_node,goal,heuristic="1") # heuristic_manhattan
@@ -143,6 +144,11 @@ def bonus(maze,start,goal,mapping_bonus, heuristic=None):
             cost = cost + t_cost + mapping_bonus[point]
             expandNode = expandNode + t_expandedNode
             current_node = point
+
+            for items in path:
+                if items in bonus_point and items != point:
+                    cost = cost + mapping_bonus[items]
+                    bonus_point.remove(items)
             bonus_point.remove(point)
 
     return path,cost,expandNode,0
