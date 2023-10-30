@@ -150,7 +150,7 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, mapping_bonus
         if path is not None:
             for node in path:
                 x, y = node
-                if node == start or node == goal or maze_clone[y][x] == '+':
+                if node == start or node == goal:
                     continue
                 save_value = maze_clone[y][x]
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
@@ -163,7 +163,7 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, mapping_bonus
         if path is not None:
             for node in path:
                 x, y = node
-                if node == start or node == goal or maze_clone[y][x] == '+':
+                if node == start or node == goal:
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
             draw_maze(screen, maze_clone)
