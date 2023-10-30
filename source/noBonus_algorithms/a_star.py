@@ -3,8 +3,6 @@ import time
 import heapq
 
 def a_star(maze, start, goal, heuristic):
-    print("A* Function")
-
     # Kiểm vị trí S và G trong ma trận
     if start is None or goal is None:
         print("S and G not found")

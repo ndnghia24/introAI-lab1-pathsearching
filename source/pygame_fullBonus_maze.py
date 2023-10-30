@@ -149,6 +149,7 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
                 save_value = maze_clone[y][x]
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
                 draw_maze(screen, maze_clone)
+                images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
                 pygame.time.delay(100)  # Delay for 5 milliseconds
                 maze_clone[y] = maze_clone[y][:x] + save_value + maze_clone[y][x + 1:]
         
@@ -158,7 +159,8 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
                 if node == start or node == goal or maze_clone[y][x] == '+':
                     continue
                 maze_clone[y] = maze_clone[y][:x] + '█' + maze_clone[y][x + 1:]
-                draw_maze(screen, maze_clone)
+            draw_maze(screen, maze_clone)
+            images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
 
         for i in range(30):
             images_list.append(np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()), 1)))
