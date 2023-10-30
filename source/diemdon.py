@@ -132,10 +132,9 @@ def find_path_with_diem_don_greater_than_10 (maze,start,goal,diem_don,matrix):
                 expanded_node = expandnode
                 # print(len(path))  
 
-            print(str(len(path)) + " " + str(cost))   
-
         if check: break
 
+    # xem thu cai thien duoc chi phi bao nhieu so voi ban dau
     print(str(first_cost) + " " + str(first_cost - cost))
     return result,cost,expanded_node
 
