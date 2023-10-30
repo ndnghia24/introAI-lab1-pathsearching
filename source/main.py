@@ -35,6 +35,17 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
                 arguments[7] = ""
                 subprocess.run(arguments)
 
+# half bonus maze
+for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\level_2")):
+    for file in files:
+        arguments[1] = os.path.join(current_dir, "pygame_halfBonus_maze.py")
+        # Get the input file path
+        input_path = os.path.join(root, file)
+        arguments[3] = input_path
+        arguments[5] = "bonus"
+        arguments[7] = ""
+        subprocess.run(arguments)
+
 # full bonus maze
 for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\level_3")):
     for file in files:

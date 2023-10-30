@@ -4,7 +4,7 @@ import imageio
 import os
 import numpy as np
 
-from fullBonus_algorithms.diemdon import find_path_with_diem_don
+from halfBonus_algorithms.diemthuong import bonus
 
 def find_start_goal(maze):
     # Tìm vị trí S và G trong ma trận
@@ -53,7 +53,7 @@ RED = (255, 0, 0)
 LIGHT_GREEN = (0, 245, 0)
 
 
-def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_nodes, visualize=None):
+def print_maze_result(maze, output_path, path, shortest_path_cost, mapping_bonus, expanded_nodes, visualize=None):
 
     start, goal = find_start_goal(maze)
 
@@ -92,6 +92,12 @@ def print_maze_result(maze, output_path, path, shortest_path_cost, expanded_node
                     # Position the number on the screen
                     font = pygame.font.Font(None, 30)
                     text_surface = font.render("E", True, BLACK)
+                    text_rect = text_surface.get_rect(center=(x * cell_size + cell_size / 2, y * cell_size + cell_size / 2))
+                    screen.blit(text_surface, text_rect)
+                elif (x, y) in mapping_bonus:
+                    # Position the number on the screen
+                    font = pygame.font.Font(None, 30)
+                    text_surface = font.render(str(mapping_bonus[(x, y)]), True, BLACK)
                     text_rect = text_surface.get_rect(center=(x * cell_size + cell_size / 2, y * cell_size + cell_size / 2))
                     screen.blit(text_surface, text_rect)
     
@@ -179,7 +185,7 @@ def find_path(algo, maze, output_path, start, goal, mapping_bonus, heuristic=Non
     if (cost is None):
         return None, None, None
 
-    maze_clone = print_maze_result(maze, output_path, path, cost, expanded_nodes, visualize)
+    maze_clone = print_maze_result(maze, output_path, path, cost, mapping_bonus, expanded_nodes, visualize)
 
     def count_expanded_nodes(maze_clone):
         count = 0
@@ -201,7 +207,7 @@ if __name__ == "__main__":
                         help='Path to the maze file')
     parser.add_argument('--algorithm', type=str, 
                         required=True,
-                        choices=['find_path_with_diem_don'], help='Search algorithm to use')
+                        choices=['bonus'], help='Search algorithm to use')
     parser.add_argument('--heuristic', type=str, 
                         default='',
                         choices=['','1', '2'], help='Heuristic for GBFS and A*')
@@ -232,8 +238,8 @@ if __name__ == "__main__":
     maze, mapping_bonus = load_maze(args.maze)
     start, goal = find_start_goal(maze)
 
-    if args.algorithm == 'find_path_with_diem_don':
-        cost, expanded_nodes_counter, runtime = find_path(find_path_with_diem_don, maze, output_path, start, goal, mapping_bonus=mapping_bonus, visualize=args.visualize)
+    if args.algorithm == 'bonus':
+        cost, expanded_nodes_counter, runtime = find_path(bonus, maze, output_path, start, goal, mapping_bonus=mapping_bonus, visualize=args.visualize)
 
     with open(output_path + ".txt", "w") as file:
         if (cost is not None):
