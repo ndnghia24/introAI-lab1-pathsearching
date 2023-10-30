@@ -186,9 +186,9 @@ if __name__ == "__main__":
                         help='Path to the maze file')
     parser.add_argument('--algorithm', type=str, 
                         required=True,
-                        choices=['ucs_teleport'], help='Search algorithm to use')
+                        choices=['ucs_teleport', 'a_star_teleport'], help='Search algorithm to use')
     parser.add_argument('--heuristic', type=str, 
-                        default='1',
+                        default='',
                         choices=['','1', '2'], help='Heuristic for GBFS and A*')
     parser.add_argument('--visualize', type=str, 
                         default='False',

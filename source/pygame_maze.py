@@ -181,7 +181,7 @@ if __name__ == "__main__":
                         required=True,
                         choices=['dfs', 'bfs', 'ucs', 'gbfs', 'a_star'], help='Search algorithm to use')
     parser.add_argument('--heuristic', type=str, 
-                        default='1',
+                        default='',
                         choices=['','1', '2'], help='Heuristic for GBFS and A*')
     parser.add_argument('--visualize', type=str, 
                         default='False',
