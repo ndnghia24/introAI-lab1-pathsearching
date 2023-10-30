@@ -2,6 +2,7 @@ from pygame_maze import *
 from itertools import permutations
 import sys
 from blind_algorithms.a_star import a_star
+import random
 
 maze,mapping_bonus = load_maze("input\level_3\input3.txt")
 
@@ -26,15 +27,19 @@ def find_path_with_diem_don(maze,start,goal,diem_don):
         matrix.append(line)
     start = 0
     goal = len(nodes) - 1
-    diem_don = list(range(0,len(diem_don)-1))
-    for line in matrix:
-        print(line)
-    if(len(diem_don) <= 10):
+    diem_don = list(range(1,len(nodes)-1))
+    print(start)
+    print(diem_don)
+    print(goal)
+    # for line in matrix:
+    #     print(line)
+    if(len(diem_don) < 10):
         return find_path_with_diem_don_less_than_10(maze,start,goal,diem_don,matrix)
     else:
         return find_path_with_diem_don_greater_than_10(maze,start,goal,diem_don,matrix)
     
 def find_path_with_diem_don_less_than_10 (maze,start,goal,diem_don,matrix):
+    print("here")
     if len(diem_don) == 0:
         return matrix[start][goal][0],matrix[start][goal][1],matrix[start][goal][2]
     else: 
@@ -62,50 +67,51 @@ def find_path_with_diem_don_less_than_10 (maze,start,goal,diem_don,matrix):
         return result,cost,expandnode
 
 def find_path_with_diem_don_greater_than_10 (maze,start,goal,diem_don,matrix):
-    neighbor = []
-    first_ten = permutations(diem_don[0:10])
+    # diem don chua thu tu cac diem don se duoc tham 
+    # hien tai thu tu tham cua cac diem don la tang dan tu 1 
+    # nen ta se goi ham random de tao ra mot thu tu ngau nhien
 
-    for i in list(first_ten):
-        neighbor.append(list(i) + diem_don[10:])
-
-    print("here 1")
-
-    cost = sys.maxsize
+    # random.shuffle(diem_don)
+    # khoi tao 
     result = None
-    thu_tu = None
-    expandNode = []
+    current_state = diem_don
+    cost = sys.maxsize
+    expanded_node = []
 
-    for i in neighbor:
-        expandnode = []
-        path = matrix[start][i[0]][0]
-        cs = matrix[start][i[0]][1]
-        expandnode = expandnode + matrix[start][i[0]][2]
-        if path != None:
-            for j in range(len(i)-1):
-                path = path + matrix[i[j]][i[j+1]][0]
-                cs = cs + matrix[i[j]][i[j+1]][1]
-                expandnode = expandnode + matrix[i[j]][i[j+1]][2]
-            path = path + matrix[i[len(i)-1]][goal][0]
-            cs = cs + matrix[i[len(i)-1]][goal][1]
-            expandnode = expandnode + matrix[i[len(i)-1]][goal][2]
-            if len(path) < cost:
-                cost = len(path)
-                result = path
-                expandNode = expandnode
-                thu_tu = i
+    init = []
+    per = permutations(diem_don[:8])
+    for i in list(per):
+        init.append(list(i) + diem_don[8:])
 
-    if result == None: return None,None,None
+    for i in range(len(init)):
+        path = matrix[start][init[i][0]][0]
+        cs = matrix[start][init[i][0]][1]
+        expandnode = matrix[start][init[i][0]][2]
+        
+        for j in range(len(init[i])-1):
+            path = path + matrix[init[i][j]][init[i][j+1]][0]
+            cs = cs + matrix[init[i][j]][init[i][j+1]][1]
+            expandnode = expandnode + matrix[init[i][j]][init[i][j+1]][2]
+
+        path = path + matrix[init[i][len(init[i])-1]][goal][0]
+        cs = cs + matrix[init[i][len(init[i])-1]][goal][1]
+        expandnode = expandnode + matrix[init[i][len(init[i])-1]][goal][2]
+
+        if len(path) < cost:
+            cost = len(path)
+            result = path
+            current_state = init[i]
+            expanded_node = expandnode
 
     check = True
+
+    first_cost = cost
     
     while(1):
-        neightbor = []
-        first_ten = permutations(thu_tu[0:10])
-
-        for i in list(first_ten):
-            neightbor.append(i + thu_tu[10:])
+        neighbor = find_neighbor(current_state)
 
         for i in neighbor:
+            check = True
             expandnode = []
             path = matrix[start][i[0]][0]
             cs = matrix[start][i[0]][1]
@@ -119,15 +125,41 @@ def find_path_with_diem_don_greater_than_10 (maze,start,goal,diem_don,matrix):
             expandnode = expandnode + matrix[i[len(i)-1]][goal][2]
             if len(path) < cost:
                 check = False
+                # print(cost)
                 cost = len(path)
                 result = path
-                thu_tu = i
-                expandNode = expandnode
+                current_state = i
+                expanded_node = expandnode
+                # print(len(path))  
+
+            print(str(len(path)) + " " + str(cost))   
 
         if check: break
 
-    return result,cost,expandNode
+    print(str(first_cost) + " " + str(first_cost - cost))
+    return result,cost,expanded_node
 
+def find_neighbor(current_state):
+    res = []
+    perm = permutations(current_state[:6])
+
+    for i in list(perm):
+        res.append(list(i) + current_state[6:])
+
+    for i in range(int(len(current_state)/2)):
+        res.append(reverse_sublist(current_state,i,len(current_state)-1-i))
+        res.append(reverse_sublist(current_state,0,len(current_state)-1-i))
+        res.append(reverse_sublist(current_state,i,len(current_state)-1))
+    return res
+
+def reverse_sublist(list,x,y):
+    if x < 0 or y > len(list) - 1:
+        return None
+    lst = list[x:y+1]
+    temp = list.copy()
+    lst.reverse()
+    temp[x:y+1] = lst
+    return temp
 path,cost,expandNode = find_path_with_diem_don(maze,start,goal,diem_don)
 print_maze_result(maze,"D:\Study\introAI-lab1-pathsearching\output\level_3\output3.txt",path,cost,expandNode,visualize="True")
         
