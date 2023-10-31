@@ -7,7 +7,7 @@ mother_dir = os.path.dirname(current_dir)
 
 # Specify the arguments to be passed to pygame_maze.py
 arguments = [
-    "python", os.path.join(current_dir, "pygame_maze.py"),
+    "python", os.path.join(current_dir, "pygame_noBonus_maze.py"),
     "--maze", os.path.join(mother_dir, "input\\level_1\\input1.txt"),
     "--algorithm", "ucs",
     "--heuristic", "",
@@ -19,7 +19,7 @@ algorithm = ["dfs", "bfs", "ucs", "gbfs", "a_star"]
 
 for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
     for file in files:
-        arguments[1] = os.path.join(current_dir, "pygame_maze.py")
+        arguments[1] = os.path.join(current_dir, "pygame_noBonus_maze.py")
         # Get the input file path
         input_path = os.path.join(root, file)
         arguments[3] = input_path
