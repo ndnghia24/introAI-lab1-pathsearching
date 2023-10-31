@@ -219,9 +219,9 @@ if __name__ == "__main__":
 
     # custom output heuristic path extention
     if heuristic != "":
-        output_path = os.path.join(input_path.replace("input\\", "output\\").split(".")[0], algorithm + "_heuristic_" + str(heuristic))
+        output_path = os.path.join(input_path.replace("input/", "output/").split(".")[0], algorithm + "_heuristic_" + str(heuristic))
     else:
-        output_path = os.path.join(input_path.replace("input\\", "output\\").split(".")[0], algorithm)
+        output_path = os.path.join(input_path.replace("input/", "output/").split(".")[0], algorithm)
     output_path = os.path.join(output_path)
 
     # Create output path
