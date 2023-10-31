@@ -189,7 +189,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # input\level_1\input1.txt
+    # input/level_1/input1.txt
     input_path = args.maze
     algorithm = args.algorithm
     heuristic = args.heuristic
@@ -223,9 +223,9 @@ if __name__ == "__main__":
 
     """# Write the result to a text file
     with open(output_path + "_detail.txt", "w") as file:
-        file.write("Cost: " + str(cost) + "\n")
-        file.write("Expanded Nodes: " + str(expanded_nodes_counter) + "\n")
-        file.write("Runtime: " + str(runtime) + " ms\n")"""
+        file.write("Cost: " + str(cost) + "/n")
+        file.write("Expanded Nodes: " + str(expanded_nodes_counter) + "/n")
+        file.write("Runtime: " + str(runtime) + " ms/n")"""
 
     with open(output_path + ".txt", "w") as file:
         if (cost is not None):
@@ -235,4 +235,4 @@ if __name__ == "__main__":
 
 
     #### Example of how to call the search algorithms ####
-    # > python source\pygame_maze.py --maze input\level_1\input1.txt --algorithm a_star --heuristic 1 --visualize True
+    # > python source/pygame_maze.py --maze input/level_1/input1.txt --algorithm a_star --heuristic 1 --visualize True

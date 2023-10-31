@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # input\level_1\input1.txt
+    # input/level_1/input1.txt
     input_path = args.maze
     algorithm = args.algorithm
     heuristic = args.heuristic
@@ -227,4 +227,4 @@ if __name__ == "__main__":
             file.write("NO")
 
     #### Example of how to call the search algorithms ####
-    # > python source\pygame_halfBonus_maze.py --maze input\advance\input1.txt --visualize True
+    # > python source/pygame_halfBonus_maze.py --maze input/advance/input1.txt --visualize True
