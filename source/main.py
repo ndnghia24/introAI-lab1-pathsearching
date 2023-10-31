@@ -8,7 +8,7 @@ mother_dir = os.path.dirname(current_dir)
 # Specify the arguments to be passed to pygame_maze.py
 arguments = [
     "python", os.path.join(current_dir, "pygame_noBonus_maze.py"),
-    "--maze", os.path.join(mother_dir, "input\\level_1\\input1.txt"),
+    "--maze", os.path.join(mother_dir, "input/level_1/input1.txt"),
     "--algorithm", "ucs",
     "--heuristic", "",
     "--visualize", "True"
@@ -36,7 +36,7 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\level_1")):
                 subprocess.run(arguments)
 
 # half bonus maze
-for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\level_2")):
+for root, dirs, files in os.walk(os.path.join(mother_dir, "input/level_2")):
     for file in files:
         arguments[1] = os.path.join(current_dir, "pygame_halfBonus_maze.py")
         # Get the input file path
@@ -47,7 +47,7 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\level_2")):
         subprocess.run(arguments)
 
 # full bonus maze
-for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\level_3")):
+for root, dirs, files in os.walk(os.path.join(mother_dir, "input/level_3")):
     for file in files:
         arguments[1] = os.path.join(current_dir, "pygame_fullBonus_maze.py")
         # Get the input file path
@@ -59,7 +59,7 @@ for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\level_3")):
 
 
 # teleport maze
-for root, dirs, files in os.walk(os.path.join(mother_dir, "input\\advance")):
+for root, dirs, files in os.walk(os.path.join(mother_dir, "input/advance")):
     for file in files:
         arguments[1] = os.path.join(current_dir, "pygame_teleport_maze.py")
         # Get the input file path
