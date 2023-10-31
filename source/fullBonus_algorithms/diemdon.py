@@ -119,9 +119,9 @@ def find_path_with_diem_don(maze,start,goal,diemdon, heuristic=None):
 
         for items in diem_don:
             # khoang cach tu diem don den diem hien tai
-            if (items, current_node) in dict_maze:
+            try:
                 heuristic = dict_maze[items][current_node]
-            else:
+            except KeyError as e:
                 return None, None, None, None
             
             if heuristic < min_heuristic:
