@@ -37,6 +37,7 @@ def ucs_teleport(maze, start, goal, mapping_teleport=None, heuristic=None):
                 next_node = (new_x, new_y)
 
                 if next_node in mapping_teleport:
+                    visited.add(next_node)
                     next_node = mapping_teleport[next_node]
                     new_cost = current_cost
                 else:
