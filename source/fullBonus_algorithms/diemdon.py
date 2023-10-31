@@ -1,149 +1,143 @@
-from pygame_maze import *
-from itertools import permutations
 import sys
-from noBonus_algorithms.a_star import a_star
-import random
+import heapq
+import time
+import math
+from collections import deque
 
-def find_path_with_diem_don(maze,start,goal,mapping_bonus, heuristic=None):
-    diem_don = list(mapping_bonus.keys())
+def a_star(maze, start, goal, heuristic):
+    # Kiểm vị trí S và G trong ma trận
+    if start is None or goal is None:
+        print("S and G not found")
+        return None, None, None, None
 
-    nodes = tuple([start]) + tuple(mapping_bonus.keys()) + tuple([goal]) 
-    matrix = []
+    # Hàm để kiểm tra đường đi hợp lệ
+    def is_valid(x, y):
+        return (0 <= y < len(maze)) and (0 <= x < len(maze[0])) and maze[y][x] != 'x'
 
-    for i in nodes:
-        line = []
-        for j in nodes:
-            if i == j:
-                line.append(([],0,[]))
-            else:
-                path,cs,expand,n = a_star(maze,i,j,heuristic="1") # heuristic_manhattan
-                if (path == None): return None,None,None,0
-                line.append((path,cs,expand))
-        matrix.append(line)
-    start = 0
-    goal = len(nodes) - 1
-    diem_don = list(range(1,len(nodes)-1))
-    # for line in matrix:
-    #     print(line)
-    if(len(diem_don) < 10):
-        return find_path_with_diem_don_less_than_10(maze,start,goal,diem_don,matrix)
-    else:
-        return find_path_with_diem_don_greater_than_10(maze,start,goal,diem_don,matrix)
+    # Hướng di chuyển trong maze
+    directions = [(0, -1), (-1, 0), (1, 0), (0, 1)]
+
+    # 1: Hàm heuristic khoảng cách Manhattan
+    def heuristic_manhattan(node, goal):
+        return abs(node[0] - goal[0]) + abs(node[1] - goal[1])
+
+    # 2: Hàm heuristic khoảng cách Euclidean
+    def heuristic_euclidean(node, goal):
+        return math.sqrt(pow((node[0] - goal[0]), 2) + pow((node[1] - goal[1]), 2))
+
+    # 3: Hàm heuristic khoảng cách Chebyshev
+    def heuristic_chebyshev(node, goal):
+        return max(abs(node[0] - goal[0]), abs(node[1] - goal[1]))
+
+    START_TIME = time.perf_counter()
+    visited = set()
+    priority_queue = []
+    heapq.heappush(priority_queue, (0, (1, start, [start])))
+    expanded_nodes = []
+
+    while priority_queue:
+        priority, (current_cost, current_node, path) = heapq.heappop(priority_queue)
+
+        if current_node == goal:
+            return path, len(path)-1, expanded_nodes, time.perf_counter() - START_TIME
+
+        if current_node in visited:
+            continue
+
+        visited.add(current_node)
+
+        x, y = current_node
+        for dx, dy in directions:
+            new_x, new_y = x + dx, y + dy
+            if is_valid(new_x, new_y):
+                next_node = (new_x, new_y)
+                new_cost = current_cost + math.sqrt(dx * dx + dy * dy)
+
+                if heuristic == "1":
+                    priority = new_cost + heuristic_manhattan(next_node, goal)
+                elif heuristic == "2":
+                    priority = new_cost + heuristic_euclidean(next_node, goal)
+                elif heuristic == "3":
+                    priority = new_cost + heuristic_chebyshev(next_node, goal)
+                else:
+                    print("Heuristic not found")
+                    return None, None, None, None
+
+                # double heuristic
+                # priority += heuristic_manhattan(next_node, goal)
+
+                heapq.heappush(priority_queue, (priority, (new_cost, next_node, path + [next_node])))
+                expanded_nodes.append(path + [next_node])
+
+    return None, None, None, None
+
+
+def construct_bonus_maze(diem_don,maze):
+    # Hàm để kiểm tra đường đi hợp lệ
+    def is_valid(x, y):
+        return (0 <= y < len(maze)) and (0 <= x < len(maze[0])) and maze[y][x] != 'x'
     
-def find_path_with_diem_don_less_than_10 (maze,start,goal,diem_don,matrix):
-    if len(diem_don) == 0:
-        return matrix[start][goal][0],matrix[start][goal][1],matrix[start][goal][2],0
-    else: 
-        result = None
-        cost = sys.maxsize
-        perm = permutations(diem_don)
-        expandNode = []
-        for i in list(perm):
-            expandnode = []
-            path = matrix[start][i[0]][0]
-            cs = matrix[start][i[0]][1]
-            expandnode = expandnode + matrix[start][i[0]][2]
-            for j in range(len(i)-1):
-                path = path + matrix[i[j]][i[j+1]][0]
-                cs = cs + matrix[i[j]][i[j+1]][1]
-                expandnode = expandnode + matrix[i[j]][i[j+1]][2]
-            path = path + matrix[i[len(i)-1]][goal][0]
-            cs = cs + matrix[i[len(i)-1]][goal][1]
-            expandnode = expandnode + matrix[i[len(i)-1]][goal][2]
-            if cs < cost:
-                cost = cs
-                result = path
-                expandNode = expandnode
+    q = deque()
+    q.append(diem_don)
+    distance = {}
+    distance[diem_don] = 0
 
-        return result,cost,expandnode,0
+    directions = [(0, -1), (-1, 0), (1, 0), (0, 1)]
 
-def find_path_with_diem_don_greater_than_10 (maze,start,goal,diem_don,matrix):
-    # diem don chua thu tu cac diem don se duoc tham 
-    # hien tai thu tu tham cua cac diem don la tang dan tu 1 
-    # nen ta se goi ham random de tao ra mot thu tu ngau nhien
+    while not len(q) == 0:
+        current_node = q.popleft()
+        x, y = current_node
+        for dx, dy in directions:
+            new_x, new_y = x + dx, y + dy
+            if is_valid(new_x, new_y) and (new_x,new_y) not in distance:
+                distance[(new_x,new_y)] = distance[current_node] + 1
+                q.append((new_x,new_y))
+    return distance
 
-    # random.shuffle(diem_don)
-    # khoi tao 
-    result = None
-    current_state = diem_don
-    cost = sys.maxsize
-    expanded_node = []
 
-    init = []
-    per = permutations(diem_don[:8])
-    for i in list(per):
-        init.append(list(i) + diem_don[8:])
+def find_path_with_diem_don(maze,start,goal,diemdon, heuristic=None):
+    diem_don = list(diemdon.keys())
+    dict_maze = {} 
 
-    for i in range(len(init)):
-        path = matrix[start][init[i][0]][0]
-        cs = matrix[start][init[i][0]][1]
-        expandnode = matrix[start][init[i][0]][2]
+    # xay dung ban do khoang cach 
+    # dong thoi loai bo nhung diem ma duong di ngan nhat tu diem do den goal lon hon gia tri cua diem thuong do
+    for i in range(len(diem_don)):
+        if (i > len(diem_don) - 1): break
+        dict_maze[diem_don[i]] = construct_bonus_maze(diem_don[i],maze)
+
+    dict_maze[start] = construct_bonus_maze(start,maze)
+
+    current_node = start
+
+    path = []
+    cost = 0
+    expandNode = []
+
+    while len(diem_don) > 0:
+        point = None
+        min_heuristic = sys.maxsize
+
+        for items in diem_don:
+            # khoang cach tu diem don den diem hien tai
+            heuristic = dict_maze[items][current_node]
+            if heuristic < min_heuristic:
+                min_heuristic = heuristic
+                point = items
         
-        for j in range(len(init[i])-1):
-            path = path + matrix[init[i][j]][init[i][j+1]][0]
-            cs = cs + matrix[init[i][j]][init[i][j+1]][1]
-            expandnode = expandnode + matrix[init[i][j]][init[i][j+1]][2]
+        if min_heuristic == sys.maxsize:
+            return None, None, None, None
+        else:
+            t_path, t_cost, t_expandNode, t_time = a_star(maze,current_node,point,heuristic="1")
+            path = path + t_path
+            # di vao diem don khong tinh chi phi nen ta - 1
+            cost = cost + t_cost - 1
+            expandNode = expandNode + t_expandNode
+            current_node = point
+            diem_don.remove(point)
 
-        path = path + matrix[init[i][len(init[i])-1]][goal][0]
-        cs = cs + matrix[init[i][len(init[i])-1]][goal][1]
-        expandnode = expandnode + matrix[init[i][len(init[i])-1]][goal][2]
+    t_path, t_cost, t_expandNode, t_time = a_star(maze,current_node,goal,heuristic="1")
+    path = path + t_path
+    cost = cost + t_cost
+    expandNode = expandNode + t_expandNode
 
-        if len(path) < cost:
-            cost = len(path)
-            result = path
-            current_state = init[i]
-            expanded_node = expandnode
-
-    check = True
-
-    first_cost = cost
-    
-    while(1):
-        neighbor = find_neighbor(current_state)
-
-        for i in neighbor:
-            check = True
-            expandnode = []
-            path = matrix[start][i[0]][0]
-            cs = matrix[start][i[0]][1]
-            expandnode = expandnode + matrix[start][i[0]][2]
-            for j in range(len(i) - 1):
-                path = path + matrix[i[j]][i[j+1]][0]
-                cs = cs + matrix[i[j]][i[j+1]][1]
-                expandnode = expandnode + matrix[i[j]][i[j+1]][2]
-            path = path + matrix[i[len(i)-1]][goal][0]
-            cs = cs + matrix[i[len(i)-1]][goal][1]
-            expandnode = expandnode + matrix[i[len(i)-1]][goal][2]
-            if len(path) < cost:
-                check = False
-                # print(cost)
-                cost = len(path)
-                result = path
-                current_state = i
-                expanded_node = expandnode
-                # print(len(path))  
-
-        if check: break
-    return result,cost,expanded_node,0
-
-def find_neighbor(current_state):
-    res = []
-    perm = permutations(current_state[:6])
-
-    for i in list(perm):
-        res.append(list(i) + current_state[6:])
-
-    for i in range(int(len(current_state)/2)):
-        res.append(reverse_sublist(current_state,i,len(current_state)-1-i))
-        res.append(reverse_sublist(current_state,0,len(current_state)-1-i))
-        res.append(reverse_sublist(current_state,i,len(current_state)-1))
-    return res
-
-def reverse_sublist(list,x,y):
-    if x < 0 or y > len(list) - 1:
-        return None
-    lst = list[x:y+1]
-    temp = list.copy()
-    lst.reverse()
-    temp[x:y+1] = lst
-    return temp
+    return path,cost,expandNode,0
