@@ -7,7 +7,7 @@ mother_dir = os.path.dirname(current_dir)
 
 # Specify the arguments to be passed to pygame_maze.py
 arguments = [
-    "python", os.path.join(current_dir, "pygame_noBonus_maze.py"),
+    "python3", os.path.join(current_dir, "pygame_noBonus_maze.py"),
     "--maze", os.path.join(mother_dir, "input/level_1/input1.txt"),
     "--algorithm", "ucs",
     "--heuristic", "",
