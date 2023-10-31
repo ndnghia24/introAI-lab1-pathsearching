@@ -2,7 +2,8 @@
 
 # python3 -m pip install --upgrade pip
 # pip install pygame argparse imageio numpy
-
+sudo apt-get update
+sudo apt-get install ffmpeg
 sudo apt-get install python3-pygame 
 sudo apt-get install python3-argparse 
 sudo apt-get install python3-imageio
